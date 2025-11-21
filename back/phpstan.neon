@@ -1,0 +1,11 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    - vendor/xefi/phpstan-xefi-rules/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    paths:
+        - app/
+    level: 7
+    ignoreErrors:

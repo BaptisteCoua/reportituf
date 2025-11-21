@@ -1,0 +1,973 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\StatefulGuard\:\:refresh\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/AuthController.php
+
+		-
+			message: '#^Call to an undefined method Laravel\\Socialite\\Contracts\\Provider\:\:stateless\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/AzureAuthController.php
+
+		-
+			message: '#^Call to an undefined method Laravel\\Socialite\\Contracts\\Provider\:\:with\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/AzureAuthController.php
+
+		-
+			message: '#^Call to an undefined static method Tymon\\JWTAuth\\Facades\\JWTAuth\:\:fromUser\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Controllers/AzureAuthController.php
+
+		-
+			message: '#^Call to an undefined static method Tymon\\JWTAuth\\Facades\\JWTAuth\:\:setToken\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Controllers/AzureAuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\AzureAuthController\:\:redirect\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/AzureAuthController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\StatefulGuard\:\:factory\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Controller.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Controller\:\:respondWithToken\(\) has parameter \$token with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/Controller.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$report\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Listeners/NotifyCommentAdded.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/NotifyReportCreated.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Listeners/NotifyReportCreated.php
+
+		-
+			message: '#^Parameter \#1 \$report of class App\\Notifications\\ReportCreatedNotification constructor expects App\\Models\\Report, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/NotifyReportCreated.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:subject\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Method App\\Models\\Comment\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Class App\\Models\\Notification uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Method App\\Models\\Notification\:\:model\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Method App\\Models\\Notification\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Notification.php
+
+		-
+			message: '#^Method App\\Models\\Priority\:\:subjects\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Priority.php
+
+		-
+			message: '#^Method App\\Models\\Report\:\:creator\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Method App\\Models\\Report\:\:status\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Method App\\Models\\Report\:\:subjects\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Method App\\Models\\Report\:\:team\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Method App\\Models\\Report\:\:users\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Report.php
+
+		-
+			message: '#^Method App\\Models\\Status\:\:reports\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Status.php
+
+		-
+			message: '#^Method App\\Models\\Subject\:\:comments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Subject.php
+
+		-
+			message: '#^Method App\\Models\\Subject\:\:priority\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Subject.php
+
+		-
+			message: '#^Method App\\Models\\Subject\:\:report\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Subject.php
+
+		-
+			message: '#^Method App\\Models\\Team\:\:reports\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Team.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:comments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:getJWTCustomClaims\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:notifications\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:reports\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:userSharedReports\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Property App\\Models\\User\:\:\$guard_name has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\UserSharedReport\:\:report\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/UserSharedReport.php
+
+		-
+			message: '#^Method App\\Models\\UserSharedReport\:\:user\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/UserSharedReport.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/CommentAddedNotification.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$report\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/CommentAddedNotification.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Report\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/ReportCreatedNotification.php
+
+		-
+			message: '#^Method App\\Notifications\\ReportCreatedNotification\:\:toDatabase\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Notifications/ReportCreatedNotification.php
+
+		-
+			message: '#^Method App\\Notifications\\ReportCreatedNotification\:\:toDatabase\(\) has parameter \$notifiable with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Notifications/ReportCreatedNotification.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$report\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Policies/CommentPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$model of method App\\Policies\\CommentPolicy\:\:isOwn\(\) expects App\\Models\\Comment, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 5
+			path: app/Policies/CommentPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 8
+			path: app/Policies/CommentPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$notifiable\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/NotificationPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$notifiable_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/NotificationPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 7
+			path: app/Policies/NotificationPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 5
+			path: app/Policies/PriorityPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$creator\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/ReportPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$users\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/ReportPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 7
+			path: app/Policies/ReportPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 5
+			path: app/Policies/StatusPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$creator_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/SubjectPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$users\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/SubjectPolicy.php
+
+		-
+			message: '#^Parameter \#2 \$model of method App\\Policies\\SubjectPolicy\:\:isOwn\(\) expects App\\Models\\Subject, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 5
+			path: app/Policies/SubjectPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 7
+			path: app/Policies/SubjectPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 5
+			path: app/Policies/TeamPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 5
+			path: app/Policies/UserPolicy.php
+
+		-
+			message: '#^Variable name "model" is too generic\. Please use a more descriptive name\.$#'
+			identifier: xefi.noGenericWord
+			count: 5
+			path: app/Policies/UserSharedReportPolicy.php
+
+		-
+			message: '#^Method App\\Providers\\EventServiceProvider\:\:boot\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Providers/EventServiceProvider.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:createRules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\CommentResource\:\:updateRules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/CommentResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\NotificationResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\NotificationResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\NotificationResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\NotificationResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\NotificationResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\NotificationResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type App\\Rest\\Resources\\RestRequest is not subtype of native type Lomkit\\Rest\\Http\\Requests\\RestRequest\.$#'
+			identifier: parameter.phpDocType
+			count: 6
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\NotificationResource\:\:actions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\NotificationResource\:\:fields\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\NotificationResource\:\:instructions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\NotificationResource\:\:limits\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\NotificationResource\:\:relations\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\NotificationResource\:\:scopes\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/NotificationResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\PriorityResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\PriorityResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\PriorityResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\PriorityResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\PriorityResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\PriorityResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type App\\Rest\\Resources\\RestRequest is not subtype of native type Lomkit\\Rest\\Http\\Requests\\RestRequest\.$#'
+			identifier: parameter.phpDocType
+			count: 6
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\PriorityResource\:\:actions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\PriorityResource\:\:fields\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\PriorityResource\:\:instructions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\PriorityResource\:\:limits\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\PriorityResource\:\:relations\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\PriorityResource\:\:scopes\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/PriorityResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:createRules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\ReportResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/ReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\StatusResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\StatusResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\StatusResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\StatusResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\StatusResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\StatusResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type App\\Rest\\Resources\\RestRequest is not subtype of native type Lomkit\\Rest\\Http\\Requests\\RestRequest\.$#'
+			identifier: parameter.phpDocType
+			count: 6
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\StatusResource\:\:actions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\StatusResource\:\:fields\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\StatusResource\:\:instructions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\StatusResource\:\:limits\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\StatusResource\:\:relations\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\StatusResource\:\:scopes\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/StatusResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:createRules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\SubjectResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/SubjectResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:createRules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\TeamResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/TeamResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type App\\Rest\\Resources\\RestRequest is not subtype of native type Lomkit\\Rest\\Http\\Requests\\RestRequest\.$#'
+			identifier: parameter.phpDocType
+			count: 6
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserResource\:\:actions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserResource\:\:fields\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserResource\:\:instructions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserResource\:\:limits\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserResource\:\:relations\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserResource\:\:scopes\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserSharedReportResource\:\:actions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserSharedReportResource\:\:fields\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserSharedReportResource\:\:instructions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserSharedReportResource\:\:limits\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserSharedReportResource\:\:relations\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Method App\\Rest\\Resources\\UserSharedReportResource\:\:scopes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type App\\Rest\\Resources\\RestRequest is not subtype of native type Lomkit\\Rest\\Http\\Requests\\RestRequest\.$#'
+			identifier: parameter.phpDocType
+			count: 6
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserSharedReportResource\:\:actions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserSharedReportResource\:\:fields\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserSharedReportResource\:\:instructions\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserSharedReportResource\:\:limits\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserSharedReportResource\:\:relations\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Parameter \$request of method App\\Rest\\Resources\\UserSharedReportResource\:\:scopes\(\) has invalid type App\\Rest\\Resources\\RestRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Rest/Resources/UserSharedReportResource.php
+
+		-
+			message: '#^Method App\\Utils\\PermissionQueries\\EloquentPermissionQuery\:\:forUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Utils/PermissionQueries/EloquentPermissionQuery.php
+
+		-
+			message: '#^Method App\\Utils\\PermissionQueries\\EloquentPermissionQuery\:\:implementQuery\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Utils/PermissionQueries/EloquentPermissionQuery.php
+
+		-
+			message: '#^Method App\\Utils\\PermissionQueries\\EloquentPermissionQuery\:\:implementQuery\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Utils/PermissionQueries/EloquentPermissionQuery.php
+
+		-
+			message: '#^Trait App\\Utils\\Traits\\HandlesPermissionsCreation is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: app/Utils/Traits/HandlesPermissionsCreation.php

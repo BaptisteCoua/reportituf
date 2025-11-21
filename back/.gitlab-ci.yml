@@ -1,0 +1,122 @@
+---
+stages:
+  - build
+  - deploy
+
+############################################################
+##################------- RD - RKE2-------##################
+############################################################
+
+build-rke2-rd:
+  stage: build
+  image:
+    name: docker:24.0.1
+  services:
+    - name: docker:24.0.1-dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: tcp://docker:2375
+    VERSION: "rd-latest-rke2"
+  before_script:
+  - |
+    until docker info | grep -q 'Server:'; do
+      echo "Waiting for Docker daemon to be ready..."
+      sleep 1
+    done
+  script:
+    - docker login -u "$registry_login" -p "$registry_secret" $CI_REGISTRYS
+    - docker buildx build -f Dockerfile -t $CI_REGISTRY_IMAGES:$VERSION --push .
+    - docker push $CI_REGISTRY_IMAGES:$VERSION
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+  tags:
+    - k3s-dailyup-dev
+
+deploy-rke2-rd:
+  stage: deploy
+  image:
+    name: $CI_REGISTRYS/xefi/rke2:tools-kaniko-default-debian-${KANIKO_IMAGE_TAG}
+    entrypoint: [""]
+    pull_policy: always
+  variables:
+    HELM_CHART: "dev-laravel-api-rke2"
+    CHART_NAME: "${CI_ENVIRONMENT_NAME}-rke2"
+    VALUES_FILE: "${CI_ENVIRONMENT_NAME}-rke2-values.yaml"
+    VERSION: "rd-latest-rke2"
+  script:
+    - cp ${KUBECONFIG_DAILYVERY_RD} $CI_PROJECT_DIR/admin.conf
+    - export KUBECONFIG=$CI_PROJECT_DIR/admin.conf
+    - git clone https://$CI_JOB_USER_HELM:$CI_JOB_TOKEN_HELM@gitlab.xefi.fr/xefi/devops/helm-charts.git $CI_PROJECT_DIR/helm-charts
+    - bash $CI_PROJECT_DIR/helm-charts/rke2-helm-charts/$HELM_CHART/deploy.sh
+  needs:
+    - job: 'build-rke2-rd'
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+  tags:
+    -  k3s-dailyup-dev
+  parallel:
+    matrix:
+      - CI_ENVIRONMENT_NAME: 
+          - rd-reportitup-api
+  environment:
+    name: ${CI_ENVIRONMENT_NAME}
+
+############################################################
+################## PROD - RKE2 ##################
+############################################################
+
+build-rke2-prod:
+  stage: build
+  image:
+    name: docker:24.0.1
+  services:
+    - name: docker:24.0.1-dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: tcp://docker:2375
+    VERSION: "prod-latest-rke2"
+  before_script:
+  - |
+    until docker info | grep -q 'Server:'; do
+      echo "Waiting for Docker daemon to be ready..."
+      sleep 1
+    done
+  script:
+    - docker login -u "$registry_login" -p "$registry_secret" $CI_REGISTRYS
+    - docker buildx build -f Dockerfile -t $CI_REGISTRY_IMAGES:$VERSION --push .
+    - docker push $CI_REGISTRY_IMAGES:$VERSION
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  tags:
+    - rke2-dailyvery-xefi-internal-prod
+
+deploy-rke2-prod:
+  stage: deploy
+  image:
+    name: $CI_REGISTRYS/xefi/rke2:tools-kaniko-default-debian-${KANIKO_IMAGE_TAG}
+    entrypoint: [""]
+    pull_policy: always
+  variables:
+    HELM_CHART: "prod-laravel-api-rke2"
+    CHART_NAME: "${CI_ENVIRONMENT_NAME}-rke2"
+    VALUES_FILE: "${CI_ENVIRONMENT_NAME}-rke2-values.yaml"
+    VERSION: "prod-latest-rke2"
+  script:
+    - cp ${KUBECONFIG_DAILYVERY_INTERNAL_XEFI_PROD} $CI_PROJECT_DIR/admin.conf
+    - export TOKEN_VAULT_PROD=$TOKEN_VAULT_PROD_XEFI_INTERNAL
+    - echo "10.33.4.92 vault-dailyup-internal-prod.xefi.fr" >> /etc/hosts
+    - git clone https://$CI_JOB_USER_HELM:$CI_JOB_TOKEN_HELM@gitlab.xefi.fr/xefi/devops/helm-charts.git $CI_PROJECT_DIR/helm-charts
+    - bash $CI_PROJECT_DIR/helm-charts/rke2-helm-charts/$HELM_CHART/deploy.sh
+
+  needs:
+    - job: 'build-rke2-prod'
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  tags:
+    -  rke2-dailyvery-xefi-internal-prod
+  parallel:
+    matrix:
+      - CI_ENVIRONMENT_NAME: 
+          - prod-reportitup-api
+  environment:
+    name: ${CI_ENVIRONMENT_NAME}

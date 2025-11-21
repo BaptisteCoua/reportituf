@@ -1,0 +1,39 @@
+{
+    "name": "xefi/synchronize-azure-users",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12",
+        "microsoft/microsoft-graph": "^2.38",
+        "microsoft/microsoft-graph-beta": "^2.42"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10|^11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Xefi\\SynchronizeAzureUsers\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Xefi\\SynchronizeAzureUsers\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Xefi\\SynchronizeAzureUsers\\SynchronizeAzureUsersServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "tbachert/spi": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

@@ -1,0 +1,39 @@
+replicaCount: ENC[AES256_GCM,data:7Q==,iv:h0Q53l8FkgpmaskU6Z+4djgyedeCkAfukWEIf3GYnpM=,tag:TKeHd15hHM1SODSymeyKWg==,type:int]
+k8s_image: ENC[AES256_GCM,data:PoReQuL9kHFH59QShMo1t5gWEm3uCw3VXoNLin4YVB7llqrTtQS08tik,iv:lO4bh5V+fVlOVRs6nVvWhcmUaprx2f6ayksylOtRzrQ=,tag:oakj6BBJNeFl7YZW2h56lA==,type:str]
+k8s_name: ENC[AES256_GCM,data:4XDLffaSPqih9ND3HeY=,iv:jn65mYZdvJwiCrgxVOCKVxz3rcCfzJe9TI7k0LuJQGM=,tag:A0419PQUplXSd2T9Y4YlmQ==,type:str]
+image_version: ""
+web_domain: ENC[AES256_GCM,data:kfcM5fikqg==,iv:uBwW6nz+bHxzkClARAfeC28wB5MXbxDTbt5ixwmCw4A=,tag:FcFvHs+e3k6kFlzw7EOsdQ==,type:str]
+host_ingress: ENC[AES256_GCM,data:iRcSTyF2jClnc/ZCNHY=,iv:ChdQv7DtTrLJHwUAN8uxP71aL1JHrxgpIPicKwA2OSw=,tag:zJAmNuS82LYCVX9RRB7ksA==,type:str]
+migration: ENC[AES256_GCM,data:cVdLww==,iv:CGmF096WGdQPpIcMvEU5fJQJzVA/zFWS11idO4nr+tc=,tag:WtOwfavWq/A2alPfGnI8WA==,type:bool]
+optimize: ENC[AES256_GCM,data:IVRjVQ==,iv:dgw7Az3CM5YsMr1vHs+dCldG7klGwws0f5BRi7jrheg=,tag:P0FySOt4KSdns1j5h5d/vQ==,type:bool]
+supervisord: ENC[AES256_GCM,data:MUNG0g0=,iv:T5I4CLM74PtpjwdNG09vE/Mkk/i2QTHhnomWaPYMPwA=,tag:IlXReKs6gVXgm9e7a60NKg==,type:bool]
+rancher_project_id: ENC[AES256_GCM,data:zl49uImblQ==,iv:8T3kUcgEyINWknT2qf7WsAHUVnEDZ4YMW/lk3UzKo1o=,tag:evIkTUFG5xNKZhkscMmVjA==,type:str]
+pv:
+    - name: ENC[AES256_GCM,data:w+5wNqwDdSSThCj/O4U=,iv:vcU208qhxRku06+wyeRQtNGQ/7KmLlAeTe0J4fiSvVU=,tag:dDkIz7tY+5RmGX8NkDVwyg==,type:str]
+      enabled: ENC[AES256_GCM,data:T02YDQ==,iv:5MOoiXiVStyknJOAX0dlrIPE6xhsAFBBExesX1Cx8Ao=,tag:/xGH+QJbzsjqgZKZaO1Yzg==,type:bool]
+      size: ENC[AES256_GCM,data:m8vGNw==,iv:qcHJYI6QtIPXzxg3P5SvRbirC+2JR7sY662LQaEGFXE=,tag:YTxxmaeKai+i+ah/UzlpfQ==,type:str]
+      server_nfs: ENC[AES256_GCM,data:glwsNgc0mnV3fMo=,iv:8z85X6wBX4Bw8IT8BmdVc4PkB0VmCexQKlvu35u28Uw=,tag:8fSHP9H7/HLk7On/sFVthg==,type:str]
+      path: ENC[AES256_GCM,data:mXt36lxJGHmUkLG7ehy3oQtaEm8CUXxuN94u/MdABVmnkE4T,iv:Ll8SGbkpnC0nfxbnMAZpjjcwateier387wsZPj72hAY=,tag:8v3lN7COnnpkbrXYpQ0ijA==,type:str]
+      mountpath: ENC[AES256_GCM,data:8FBL7OfDIpUArbHHGQI+aA==,iv:ZSeZIhS8haG9j5y/Q/bkn2QonHeja0982SYdA81G7Mk=,tag:LAAcQiVIzsJVsCA03ghWRA==,type:str]
+hpa:
+    - name: ENC[AES256_GCM,data:Eq2GFumjLj5T5TSMX3I=,iv:1fsZvVMP/+H8DfBBI9PpyqxyQHpcvt4ow588GuD+sSY=,tag:Plq5tTmN6MDhUU5Wo095XQ==,type:str]
+      enabled: ENC[AES256_GCM,data:h7o3sPE=,iv:u2AoEEJ3UBAb/mwCDNNFnv06TT/v690xO5SDyylkJW8=,tag:41Ro6uQmQ9IyEK+toG0CYw==,type:bool]
+healthcheck:
+    - name: ENC[AES256_GCM,data:AwodEA==,iv:yCBv4IcmSwGNG5SPz1HFsku8vGUecs+WdOWC3cG89zk=,tag:qAhDBJZUmtFZDMkZ/0y5pg==,type:str]
+      enabled: ENC[AES256_GCM,data:KdT0j8s=,iv:I1hDgMelUBuH7Bq7EbcFos1x4A2dw9vUOaZka4/9RUU=,tag:+EcdRj3ofK2KaDhBWJ4Hhw==,type:bool]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault:
+        - vault_address: https://vault-dailyup-internal-prod.xefi.fr
+          engine_path: transit
+          key_name: prod-reportitup-api
+          created_at: "2025-10-24T12:25:08Z"
+          enc: vault:v1:mdAY+oaxNFJ8NbPtB9HmSg6vQUyrhgWquC0iv8jqI53LF4hCGlpiQXbz/cV7jb/8MzJdJPkSXLL/KTKA
+    age: []
+    lastmodified: "2025-10-24T12:25:08Z"
+    mac: ENC[AES256_GCM,data:uNiUZlzcjBIVT8AnwBo5ofyvtjBxTdGxMEtcvNr4rJUbw7RhzfyTDhxqkFl3SwASfeettuMbXurnexroQH7+vN/0yz33FqoDOyqsKAtm9QRb/0IfkD/EFwqFSn/edPfaMPwrmn+R2/R9UqxgG5TU63v0TeTTfUhp5bvFelIUHXo=,iv:IfxRUhz06XPGmOfuRpN1+j5CJiyQ8U5TNLoa308WCQY=,tag:rQnZYw2k1nC4vJo7fjugSQ==,type:str]
+    pgp: []
+    unencrypted_suffix: _unencrypted
+    version: 3.9.4
