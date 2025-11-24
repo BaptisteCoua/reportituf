@@ -1,0 +1,15 @@
+# Ignore node modules and build outputs
+node_modules
+.nuxt
+.output
+dist
+coverage
+.git
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+.vscode
+.idea
