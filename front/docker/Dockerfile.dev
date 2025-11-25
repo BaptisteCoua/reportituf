@@ -1,4 +1,4 @@
-FROM node:24.12-alpine
+FROM node:24-alpine
 
 RUN corepack enable && corepack prepare pnpm@9.15.2 --activate
 
@@ -11,14 +11,9 @@ RUN apk add --no-cache \
     make \
     g++
 
-RUN addgroup -g 1000 devuser && \
-    adduser -D -u 1000 -G devuser devuser
+USER node
 
 WORKDIR /app
-
-RUN chown -R devuser:devuser /app
-
-USER devuser
 
 EXPOSE 3000
 EXPOSE 24678
