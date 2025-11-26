@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap");
+body {
+  font-family: "Lato", sans-serif;
+}
+.poppins {
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --font-small: 16px;
+  --font-base: 16px;
+  --nav-height: 80px;
+  --full-height-minus-nav: calc(100vh - var(--nav-height));
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-size: var(--font-small);
+}
+
+h1,
+.important-text {
+  font-size: var(--font-base);
+}
+
+.modal-notification {
+  font-family: "Montserrat", sans-serif;
+}
+
+.add-subject {
+  font-family: "Roboto Flex", sans-serif;
+  font-size: 15px;
+}
+
+.w-fit-content {
+  width: fit-content;
+}

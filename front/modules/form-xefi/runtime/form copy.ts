@@ -6,52 +6,27 @@ interface Field {
 }
 
 interface Fields {
-  [key: string]: Field | Fields[];
+  [key: string]: Field | Field[];
 }
 
 abstract class Form {
-  abstract fields: string[];
-  collections?: Record<string, { min: number; max: number; fields: string[] }>;
-  params?: Record<string, any>;
-
-  constructor(params: Record<string, any> = {}) {
-    this.params = params;
-  }
-
-  abstract format(fields: Fields): any;
-
-  defaultValues?(params?: any): any | Promise<any> {
-    return {};
-  }
-
-  rules?(): Record<string, ((val: any) => string)[] | any> {
-    return {};
-  }
-
-  formatErrorMessages(error: any): Record<string, string[]> {
-    return {};
-  }
-
+  abstract fields: Fields;
+  abstract collections?: Record<
+    string,
+    { min: number; max: number; template: Fields }
+  >;
+  abstract format(fields: any): any;
+  abstract rules(): Record<string, ((val: any) => boolean | string)[]>;
+  abstract formatErrorMessages(error: any): Record<string, string[]>;
   abstract onSubmit(formatData: any): any;
 
-  initField(name: string): Field {
-    return { name, value: "", errors: [] };
-  }
-
-  createFields(names: string[]): Fields {
-    return names.reduce((acc: any, fieldName: string) => {
-      acc[fieldName] = this.initField(fieldName);
-      return acc;
-    }, {});
-  }
-
-  formatFields(): Fields {
+  formatFields() {
     return {
-      ...this.createFields(this.fields),
+      ...this.fields,
       ...Object.entries(this.collections ?? {}).reduce(
         (acc: any, [key, value]) => {
           acc[key] = Array.from({ length: value.min }, () =>
-            JSON.parse(JSON.stringify(this.createFields(value.fields)))
+            JSON.parse(JSON.stringify(value.template))
           );
           return acc;
         },
@@ -74,7 +49,7 @@ abstract class Form {
               callback(item[subKey], `${key}.${index}.${subKey}`);
             }
           });
-        } else if (currentPath) {
+        } else {
           callback(currentPath, key);
         }
       }
@@ -82,7 +57,7 @@ abstract class Form {
 
     forEachField((field) => {
       field.validate = () => {
-        if (!this.rules) return true;
+        console.log("Validating field:", field.name);
         const rules = this.rules();
         const fieldRules = rules[field.name];
         field.errors = [];
@@ -101,11 +76,8 @@ abstract class Form {
       const collection = this.collections?.[collectionName];
       if (collection) {
         const currentItems = fields.value[collectionName];
-        if (
-          Array.isArray(currentItems) &&
-          currentItems.length < collection.max
-        ) {
-          currentItems.push(this.createFields(collection.fields));
+        if (currentItems.length < collection.max) {
+          currentItems.push({ ...collection.template });
         }
       }
     };
@@ -114,10 +86,7 @@ abstract class Form {
       const collection = this.collections?.[collectionName];
       if (collection) {
         const currentItems = fields.value[collectionName];
-        if (
-          Array.isArray(currentItems) &&
-          currentItems.length > collection.min
-        ) {
+        if (currentItems.length > collection.min) {
           currentItems.splice(index, 1);
         }
       }
@@ -129,9 +98,12 @@ abstract class Form {
       });
     };
 
+    // const validateField = (fieldName: string, field:Field) => {
+    //     const rules = this.rules();
+    //     const fieldRules = rules[fieldName];}
+
     const checkRules = (applyError: boolean = true) => {
       clearErrors();
-      if (!this.rules) return true;
       const rules = this.rules();
       let isValid = true;
 
@@ -156,13 +128,10 @@ abstract class Form {
       isDirty.value = false;
       clearErrors();
     };
-
     const isValid = computed(() => {
       return checkRules(false);
     });
-
     const markAsDirty = () => (isDirty.value = true);
-
     const submit = async () => {
       isLoading.value = true;
       let res = null;
