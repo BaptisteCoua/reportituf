@@ -5,19 +5,10 @@ RUN corepack enable && corepack prepare pnpm@9.15.2 --activate
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN apk add --no-cache \
-    git \
-    python3 \
-    make \
-    g++
+RUN apk add --no-cache git python3 make g++
 
 WORKDIR /app
 
-RUN chown -R node:node /app
-
-USER node
-
-EXPOSE 3000
-EXPOSE 24678
+EXPOSE 3000 24678
 
 CMD ["sh", "-c", "pnpm install && pnpm dev"]

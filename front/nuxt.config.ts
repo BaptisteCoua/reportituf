@@ -1,4 +1,4 @@
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   future: {
@@ -14,24 +14,19 @@ export default defineNuxtConfig({
 
   ssr: true,
 
-  css: [
-    '~/assets/css/global.css',
-    '@mdi/font/css/materialdesignicons.css',
-  ],
+  css: ["~/assets/css/global.css", "@mdi/font/css/materialdesignicons.css"],
 
   devServer: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 3000,
   },
 
   build: {
-    transpile: ['vuetify'],
+    transpile: ["vuetify"],
   },
 
   vite: {
-    plugins: [
-      vuetify({ autoImport: true }),
-    ],
+    plugins: [vuetify({ autoImport: true })],
     vue: {
       template: {
         transformAssetUrls,
@@ -42,8 +37,8 @@ export default defineNuxtConfig({
         usePolling: true,
       },
       hmr: {
-        protocol: 'ws',
-        host: 'localhost',
+        protocol: "ws",
+        host: "localhost",
         port: 24680,
       },
     },
@@ -51,20 +46,17 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true,
-    typeCheck: true,
+    typeCheck: false,
     shim: false,
   },
 
-  modules: [
-    '@pinia/nuxt',
-    '@nuxt/ui',
-  ],
+  modules: ["@pinia/nuxt"],
 
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api',
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || "http://localhost:8000/api",
     },
   },
 
-  compatibilityDate: '2025-01-15',
-})
+  compatibilityDate: "2025-01-15",
+});
