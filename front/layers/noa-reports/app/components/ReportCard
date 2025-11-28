@@ -1,0 +1,63 @@
+<template>
+  <v-card
+    :to="`/noa-reports/${report.id}`"
+    hover
+    class="report-card"
+  >
+    <v-card-title class="d-flex justify-space-between align-center">
+      <span class="text-h6">{{ report.title }}</span>
+      <ReportStatus :status="report.status" />
+    </v-card-title>
+
+    <v-card-subtitle class="mt-2">
+      <v-chip size="small" variant="outlined" class="mr-2">
+        <v-icon start>mdi-account-group</v-icon>
+        {{ report.team.name }}
+      </v-chip>
+      <v-chip size="small" variant="outlined">
+        <v-icon start>mdi-account</v-icon>
+        {{ report.creator.name }}
+      </v-chip>
+    </v-card-subtitle>
+
+    <v-card-text>
+      <div class="mb-2">
+        <strong>{{ report.subjects.length }}</strong> sujet(s)
+      </div>
+      <div class="text-caption text-grey">
+        Créé le {{ formatDate(report.created_at) }}
+      </div>
+    </v-card-text>
+
+    <v-card-actions v-if="report.status.slug === 'draft'">
+      <v-btn
+        :to="`/noa-reports/${report.id}/edit`"
+        variant="text"
+        color="primary"
+        size="small"
+      >
+        <v-icon start>mdi-pencil</v-icon>
+        Éditer
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script setup lang="ts">
+import type { Report } from '../../types'
+import { formatDate } from '../../utils/reportFormatters'
+
+defineProps<{
+  report: Report
+}>()
+</script>
+
+<style scoped>
+.report-card {
+  transition: all 0.3s ease;
+}
+
+.report-card:hover {
+  transform: translateY(-2px);
+}
+</style>
