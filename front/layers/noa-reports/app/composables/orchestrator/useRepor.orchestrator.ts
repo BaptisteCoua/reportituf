@@ -1,8 +1,8 @@
 import { storeToRefs } from 'pinia'
 import { useReportStore } from '../../stores/useReport.store'
-import { useReportConnector } from '../connector/useReportConnector'
-import { useReportLogic } from '../logic/useReportLogic'
-import { useReportFilters } from '../logic/useReportFilters'
+import { useReportConnector } from '../connector/useReport.connector'
+import { useReportLogic } from '../logic/useReport.logic'
+import { useReportFilters } from '../logic/useReportFilters.logic'
 
 export const useReportOrchestrator = () => {
   const store = useReportStore()
