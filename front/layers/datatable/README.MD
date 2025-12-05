@@ -200,9 +200,9 @@ Le layer DataTable est complètement agnostic de la communication avec le serveu
 
 ### Principe
 
-1. Le composable construit un **payload** selon le format choisi (Lomkit, GraphQL, custom)
-2. Votre **fetchFunction** reçoit ce payload
-3. Votre **SDK** gère l'appel (POST, GET, GraphQL, WebSocket, etc.)
+1. Le composable construit un  payload  selon le format choisi (Lomkit, GraphQL, custom)
+2. Votre fetchFunction reçoit ce payload
+3. Votre SDK gère l'appel (POST, GET, GraphQL, WebSocket, etc.)
 4. Vous retournez `{ items, total }` normalisé
 
 ### Avec SDK RestApiLomkit
@@ -300,7 +300,7 @@ Le layer fournit 3 builders prêts à l'emploi :
 
 #### lomkitPayloadBuilder
 
-Format structuré pour APIs utilisant le pattern Lomkit.
+Format structuré pour APIs utilisant Lomkit.
 
 #### graphqlPayloadBuilder
 
@@ -579,18 +579,18 @@ const deleteSelected = async () => {
 
 ## Architecture
 
-Le layer est construit en modules avec séparation des responsabilités :
+Le layer est construit comme ceci :
 
 ### DataTable
-- **DataTableState** : Gestion de l'état
-- **DataTableSorting** : Logique de tri
-- **DataTablePagination** : Logique de pagination
-- **DataTableSelection** : Logique de sélection
-- **BaseDataTable** : Orchestration
+-  DataTableState  : Gestion de l'état
+-  DataTableSorting  : Logique de tri
+-  DataTablePagination  : Logique de pagination
+-  DataTableSelection  : Logique de sélection
+-  BaseDataTable  : Orchestration
 
 ### ServerDataTable
-- **ServerDataTableState** : Gestion de l'état serveur
-- **ServerDataTableFetching** : Appels API et abort
-- **ServerDataTableFilters** : Recherche et filtres avec debounce
-- **ApiPayloadBuilder** : Construction des payloads
+-  ServerDataTableState  : Gestion de l'état serveur
+-  ServerDataTableFetching  : Appels API et abort
+-  ServerDataTableFilters  : Recherche et filtres avec debounce
+-  ApiPayloadBuilder  : Construction des payloads
 - Réutilise les modules de tri, pagination et sélection
