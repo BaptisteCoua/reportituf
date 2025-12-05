@@ -306,4 +306,3 @@ Le composable est construit comme suit :
 - **DateTimeValidation** : Validation et correction des dates
 - **DateTimeFormatting** : Formatage et parsing des dates
 - **BaseDateTimePicker** : Orchestration des couches
-```
