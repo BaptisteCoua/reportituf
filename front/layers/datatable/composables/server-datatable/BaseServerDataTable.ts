@@ -1,4 +1,4 @@
-import type { ServerDataTableOptions } from '../../../types'
+import type { ServerDataTableOptions } from '../../types'
 import { ServerDataTableState } from './ServerDataTableState'
 import { ServerDataTableFetching } from './ServerDataTableFetching'
 import { ServerDataTableFilters } from './ServerDataTableFilters'

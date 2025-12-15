@@ -1,10 +1,10 @@
 export * from '../types'
-export * from './core/payload-builders'
-export { BaseDataTable } from './core/datatable/BaseDataTable'
-export { BaseServerDataTable } from './core/server-datatable/BaseServerDataTable'
+export * from './payload-builders'
+export { BaseDataTable } from './datatable/BaseDataTable'
+export { BaseServerDataTable } from './server-datatable/BaseServerDataTable'
 
-import { BaseDataTable } from './core/datatable/BaseDataTable'
-import { BaseServerDataTable } from './core/server-datatable/BaseServerDataTable'
+import { BaseDataTable } from './datatable/BaseDataTable'
+import { BaseServerDataTable } from './server-datatable/BaseServerDataTable'
 import type { DataTableOptions, ServerDataTableOptions, DataTableHeader } from '../types'
 
 export function useDataTable<T = unknown>(options: DataTableOptions<T> = {}) {

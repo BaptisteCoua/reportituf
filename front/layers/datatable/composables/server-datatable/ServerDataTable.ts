@@ -1,5 +1,5 @@
-import type { ServerDataTableOptions, ServerFetchParams, DataTableFilters, PayloadBuilderFunction } from '../../../types'
-import { DataTableState } from '../datatable/DataTableState'
+import type { ServerDataTableOptions, ServerFetchParams, DataTableFilters, PayloadBuilderFunction } from '../../types'
+import { DataTableState } from '../../datatable/DataTableState'
 import { defaultPayloadBuilder } from '../payload-builders'
 
 export class ServerDataTableState<T = unknown> extends DataTableState<T> {

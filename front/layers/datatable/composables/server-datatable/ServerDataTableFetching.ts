@@ -1,5 +1,5 @@
 import type { ServerDataTableState } from './ServerDataTableState'
-import type { ServerFetchParams } from '../../../types'
+import type { ServerFetchParams } from '../../types'
 
 export class ServerDataTableFetching<T = unknown> {
   protected abortController: AbortController | null = null

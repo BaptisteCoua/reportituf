@@ -1,5 +1,5 @@
 import { ApiPayloadBuilder } from './ApiPayloadBuilder'
-import type { PayloadBuilderFunction, ServerFetchParams } from '../../../types'
+import type { PayloadBuilderFunction, ServerFetchParams } from '../../types'
 
 export { ApiPayloadBuilder }
 

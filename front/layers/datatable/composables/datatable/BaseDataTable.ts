@@ -1,4 +1,4 @@
-import type { DataTableOptions } from '../../../types'
+import type { DataTableOptions } from '../../types'
 import { DataTableState } from './DataTableState'
 import { DataTableSorting } from './DataTableSorting'
 import { DataTablePagination } from './DataTablePagination'
