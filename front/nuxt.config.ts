@@ -7,7 +7,11 @@ export default defineNuxtConfig({
   build: {
     transpile: ["vuetify"],
   },
-  // modules: ["form-xefi"],
+  modules: [
+    "form-xefi",
+    "~/modules/dateTimePicker/module.ts",
+    "~/modules/datatable/module.ts"
+  ],
   vite: {
     plugins: [
       // @ts-expect-error
