@@ -1,4 +1,4 @@
-import type { DataTableHeader, DataTableSort, DataTablePagination, DataTableOptions } from '../../types'
+import type { DataTableHeader, DataTableSort, DataTablePagination, DataTableOptions } from '../types'
 
 export class DataTableState<T = unknown> {
   protected items = ref<T[]>([])
