@@ -312,7 +312,7 @@ Le composable est construit comme suit :
 ### Passage en Module
 La prochaine étape est de passer ce layer en **Module Nuxt** autonome. L'idée est de permettre aux équipes de l'utiliser comme une dépendance dans leurs propres layers de domaine pour :
 * **Isoler la logique** : Séparer le moteur technique des fonctionnalités métiers.
-* **Simplifier la distribution** : Partager le SDK sans imposer de structure de dossier rigide.
+* **Simplifier la distribution** : Partager le module sans imposer de structure de dossier rigide.
 
 ### Introduction des macros `define...`
 Pour gagner encore plus de temps et éviter les tâches répétitives, on va mettre en place un système de macros. Au lieu d'instancier manuellement, on utilisera un `defineDateTimePicker` :
