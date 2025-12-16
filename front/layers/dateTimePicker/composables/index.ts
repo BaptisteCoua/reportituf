@@ -1,8 +1,8 @@
 export * from './types'
 export * from './utils'
-export { BaseDateTimePicker } from './core/BaseDateTimePicker'
+export { BaseDateTimePicker } from './BaseDateTimePicker'
 
-import { BaseDateTimePicker } from './core/BaseDateTimePicker'
+import { BaseDateTimePicker } from './BaseDateTimePicker'
 import type { DateTimePickerOptions } from './types'
 
 export function useDateTimePicker(options: DateTimePickerOptions = {}) {
