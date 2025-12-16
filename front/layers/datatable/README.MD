@@ -594,3 +594,27 @@ Le layer est construit comme ceci :
 -  ServerDataTableFilters  : Recherche et filtres avec debounce
 -  ApiPayloadBuilder  : Construction des payloads
 - Réutilise les modules de tri, pagination et sélection
+
+
+---
+
+## Roadmap & Évolutions
+
+### Passage en Module
+Comme pour le DateTimePicker, ce layer va devenir un **Module Nuxt** indépendant. L'objectif est de permettre aux équipes de l'utiliser comme un socle technique dans leurs propres layers métiers sans contraintes de structure :
+* **Moteur de données pur** : Séparation totale entre la logique de gestion des données et l'affichage.
+* **Flexibilité** : Possibilité d'étendre la classe `ServerDataTable` pour des besoins métiers spécifiques à chaque équipe.
+
+### Introduction de `defineTable`
+On va simplifier l'instanciation avec une macro dédiée pour uniformiser la création des tableaux à travers l'application :
+
+```typescript
+// Future implementation
+export const useUserTable = defineTable<User>({
+  headers: [
+    { key: 'username', title: 'Utilisateur', sortable: true },
+    { key: 'email', title: 'Email' }
+  ],
+  fetchFunction: (payload) => UserSDK.search(payload),
+  payloadBuilder: lomkitPayloadBuilder
+})
