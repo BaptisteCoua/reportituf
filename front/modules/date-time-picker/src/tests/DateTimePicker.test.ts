@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { DateTimePicker } from '../src/DateTimePicker'
+import { DateTimePicker } from '../DateTimePicker'
 
 describe('DateTimePicker', () => {
   let picker: DateTimePicker

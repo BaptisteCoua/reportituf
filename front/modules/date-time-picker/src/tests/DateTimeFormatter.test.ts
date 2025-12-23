@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { DateTimeState } from '../src/DateTimeState'
-import { DateTimeFormatter } from '../src/DateTimeFormatter'
+import { DateTimeState } from '../DateTimeState'
+import { DateTimeFormatter } from '../DateTimeFormatter'
 
 describe('DateTimeFormatter', () => {
   let state: DateTimeState

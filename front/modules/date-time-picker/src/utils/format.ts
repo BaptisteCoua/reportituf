@@ -3,7 +3,7 @@ import {
   parseISO,
   formatISO,
 } from 'date-fns'
-import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
+import { toZonedTime, fromZonedTime } from 'date-fns-tz'
 import type { Locale } from 'date-fns'
 
 export function formatDate(
@@ -28,11 +28,11 @@ export function toISO(date: Date): string {
 }
 
 export function toUTC(date: Date, timezone: string = 'UTC'): Date {
-  return zonedTimeToUtc(date, timezone)
+  return fromZonedTime(date, timezone)
 }
 
 export function toLocalDate(date: Date, timezone: string): Date {
-  return utcToZonedTime(date, timezone)
+  return toZonedTime(date, timezone)
 }
 
 export function combineDateTime(date: Date, time: string): Date | null {

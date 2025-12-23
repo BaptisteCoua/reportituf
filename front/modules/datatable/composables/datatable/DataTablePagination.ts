@@ -1,4 +1,5 @@
 import type { DataTableState } from './DataTableState'
+import {ComputedRef} from "vue";
 
 export class DataTablePagination<T = unknown> {
   constructor(

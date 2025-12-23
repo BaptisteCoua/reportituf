@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { DateTimeState } from '../src/DateTimeState'
+import { DateTimeState } from '../DateTimeState'
 
 describe('DateTimeState', () => {
   let state: DateTimeState

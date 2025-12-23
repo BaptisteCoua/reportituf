@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { 
-  isValidDate, 
-  isDateInRange, 
-  isRangeValid, 
-  validateDateTime, 
+import {
+  isValidDate,
+  isDateInRange,
+  isRangeValid,
+  validateDateTime,
   validateRange,
-  correctDate 
-} from '../../src/utils/validation'
+  correctDate
+} from '../../utils/validation'
 
 describe('utils/validation', () => {
   describe('isValidDate', () => {
