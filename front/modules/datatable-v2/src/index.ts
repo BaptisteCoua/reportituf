@@ -1,11 +1,19 @@
+export { DataTable } from "./DataTable";
+export { ServerDataTable } from "./ServerDataTable";
+
+export { useDataTable } from "./composables/useDataTable";
+export { useServerDataTable } from "./composables/useServerDataTable";
+
+export * from "./types/DataTable.types";
+export * from "./types/ServerDataTable.types";
+
 import { ApiPayloadBuilder } from "./builders/ApiPayloadBuilder";
 import type {
   PayloadBuilderFunction,
   ServerFetchParams,
-} from "./types/ApiPayloadBuilder.types";
+} from "./types/ServerDataTable.types";
 
 export { ApiPayloadBuilder };
-export * from "./types/ApiPayloadBuilder.types";
 
 const builder = new ApiPayloadBuilder();
 

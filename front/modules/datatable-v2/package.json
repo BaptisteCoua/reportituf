@@ -1,7 +1,7 @@
 {
-  "name": "@your-org/payload-builder",
+  "name": "@reportituf/datatable-v2",
   "version": "1.0.0",
-  "description": "Module pour construire des payloads API dans différents formats",
+  "description": "Module DataTable V2 pour la gestion de tables de données avec tri, pagination, sélection et filtres",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

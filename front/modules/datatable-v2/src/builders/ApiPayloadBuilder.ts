@@ -1,4 +1,4 @@
-import type { ServerFetchParams } from "../types/ApiPayloadBuilder.types";
+import type { ServerFetchParams } from "../types/ServerDataTable.types";
 
 export class ApiPayloadBuilder {
   build(params: ServerFetchParams): unknown {
