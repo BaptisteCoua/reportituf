@@ -1,5 +1,6 @@
 # DataTable
 
+
 Deux composables réutilisables et framework-agnostic pour gérer des tableaux de données : côté client et côté serveur, avec tri, pagination, filtres et sélection.
 
 ## Installation
