@@ -1,5 +1,5 @@
 {
-  "name": "@your-org/date-time-picker",
+  "name": "@reportituf/date-time-picker",
   "version": "1.0.0",
   "description": "Module POO pour faciliter la gestion des date time pickers",
   "type": "module",
