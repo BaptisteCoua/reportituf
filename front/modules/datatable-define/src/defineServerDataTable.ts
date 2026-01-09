@@ -41,7 +41,8 @@ interface ServerDataTableReturn<T> {
   setFilters: (filters: Record<string, unknown>) => void
   clearFilters: () => void
   clearSearch: () => void
-  selectItem: (item: T) => void
+  // TODO useless with selectItems
+  // selectItem: (item: T) => void
   selectItems: (items: T[]) => void
   deselectItems: (items: T[]) => void
   selectAll: () => void
@@ -170,17 +171,18 @@ function createServerDataTable<T>(options: ServerDataTableOptions<T>): ServerDat
     headers.value = newHeaders
   }
 
-  const toggleSort = async (key: string) => {
-    const currentSort = sort.value
-    if (!currentSort || currentSort.key !== key) {
-      sort.value = { key, order: 'asc' }
-    } else if (currentSort.order === 'asc') {
-      sort.value = { key, order: 'desc' }
-    } else {
-      sort.value = null
-    }
-    await fetchItems()
-  }
+  // TODO compare with setSort but it's useless
+  // const toggleSort = async (key: string) => {
+  //   const currentSort = sort.value
+  //   if (!currentSort || currentSort.key !== key) {
+  //     sort.value = { key, order: 'asc' }
+  //   } else if (currentSort.order === 'asc') {
+  //     sort.value = { key, order: 'desc' }
+  //   } else {
+  //     sort.value = null
+  //   }
+  //   await fetchItems()
+  // }
 
   const setSort = async (key: string, order: 'asc' | 'desc') => {
     sort.value = { key, order }
@@ -238,11 +240,12 @@ function createServerDataTable<T>(options: ServerDataTableOptions<T>): ServerDat
     }
   }
 
-  const setFilter = (key: string, value: unknown) => {
-    filters.value = { ...filters.value, [key]: value }
-    pagination.value = { ...pagination.value, page: 1 }
-    fetchItems()
-  }
+  // TODO useless with setFilters
+  // const setFilter = (key: string, value: unknown) => {
+  //   filters.value = { ...filters.value, [key]: value }
+  //   pagination.value = { ...pagination.value, page: 1 }
+  //   fetchItems()
+  // }
 
   const setFilters = (newFilters: Record<string, unknown>) => {
     filters.value = newFilters
