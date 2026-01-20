@@ -1,258 +1,418 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { nextTick } from 'vue'
 import { defineDataTable } from '../defineDataTable'
 import { clearDataTableRegistry } from '../store/registry'
 
 interface User {
-  id: number
-  name: string
-  email: string
-  age: number
+    id: number
+    name: string
+    email: string
+    age: number
 }
 
 const mockUsers: User[] = [
-  { id: 1, name: 'Alice', email: 'alice@test.com', age: 25 },
-  { id: 2, name: 'Bob', email: 'bob@test.com', age: 30 },
-  { id: 3, name: 'Charlie', email: 'charlie@test.com', age: 35 },
-  { id: 4, name: 'Diana', email: 'diana@test.com', age: 28 },
-  { id: 5, name: 'Eve', email: 'eve@test.com', age: 22 },
+    { id: 1, name: 'Alice', email: 'alice@test.com', age: 25 },
+    { id: 2, name: 'Bob', email: 'bob@test.com', age: 30 },
+    { id: 3, name: 'Charlie', email: 'charlie@test.com', age: 35 },
 ]
 
 describe('defineDataTable', () => {
-  beforeEach(() => {
-    clearDataTableRegistry()
-  })
-
-  it('cree une table avec les options par defaut', () => {
-    const useUsersTable = defineDataTable<User>('users')
-    const table = useUsersTable()
-
-    expect(table.items.value).toEqual([])
-    expect(table.pagination.value.page).toBe(1)
-    expect(table.pagination.value.itemsPerPage).toBe(10)
-  })
-
-  it('cree une table avec des items initiaux', () => {
-    const useUsersTable = defineDataTable<User>('usersWithItems', {
-      items: mockUsers,
-    })
-    const table = useUsersTable()
-
-    expect(table.items.value).toHaveLength(5)
-    expect(table.pagination.value.totalItems).toBe(5)
-  })
-
-  it('retourne la meme instance pour le meme id', () => {
-    const useTable1 = defineDataTable<User>('sameId')
-    const useTable2 = defineDataTable<User>('sameId')
-
-    const table1 = useTable1()
-    const table2 = useTable2()
-
-    table1.setItems(mockUsers)
-
-    expect(table2.items.value).toHaveLength(5)
-  })
-
-  describe('setItems', () => {
-    it('met a jour les items et la pagination', () => {
-      const useTable = defineDataTable<User>('setItemsTest')
-      const table = useTable()
-
-      table.setItems(mockUsers)
-
-      expect(table.items.value).toHaveLength(5)
-      expect(table.pagination.value.totalItems).toBe(5)
-    })
-  })
-
-  describe('tri', () => {
-    it('toggleSort alterne entre asc, desc et null', () => {
-      const useTable = defineDataTable<User>('sortTest', { items: mockUsers })
-      const table = useTable()
-
-      table.toggleSort('name')
-      expect(table.sort.value).toEqual({ key: 'name', order: 'asc' })
-
-      table.toggleSort('name')
-      expect(table.sort.value).toEqual({ key: 'name', order: 'desc' })
-
-      table.toggleSort('name')
-      expect(table.sort.value).toBeNull()
+    beforeEach(() => {
+        clearDataTableRegistry()
     })
 
-    it('setSort definit le tri', () => {
-      const useTable = defineDataTable<User>('setSortTest', { items: mockUsers })
-      const table = useTable()
+    describe('creation et options', () => {
+        it('cree une table avec les options par defaut', () => {
+            const table = defineDataTable<User>('users')
 
-      table.setSort('age', 'desc')
-      expect(table.sort.value).toEqual({ key: 'age', order: 'desc' })
+            expect(table.items.value).toEqual([])
+            expect(table.body.value.page).toBe(1)
+            expect(table.body.value.itemsPerPage).toBe(10)
+            expect(table.body.value.sorts).toEqual([])
+            expect(table.body.value.search).toBe('')
+            expect(table.body.value.filters).toEqual({})
+        })
+
+        it('cree une table avec itemsPerPage custom', () => {
+            const table = defineDataTable<User>('customPerPage', {
+                itemsPerPage: 25,
+            })
+
+            expect(table.body.value.itemsPerPage).toBe(25)
+        })
+
+        it('cree une table avec initialBody', () => {
+            const table = defineDataTable<User>('withInitialBody', {
+                initialBody: {
+                    page: 2,
+                    search: 'test',
+                    filters: { status: 'active' },
+                },
+            })
+
+            expect(table.body.value.page).toBe(2)
+            expect(table.body.value.search).toBe('test')
+            expect(table.body.value.filters).toEqual({ status: 'active' })
+        })
+
+        it('retourne la meme instance pour le meme id', () => {
+            const table1 = defineDataTable<User>('sameId')
+            const table2 = defineDataTable<User>('sameId')
+
+            table1.items.value = mockUsers
+
+            expect(table2.items.value).toHaveLength(3)
+        })
     })
 
-    it('sortedItems retourne les items tries', () => {
-      const useTable = defineDataTable<User>('sortedItemsTest', { items: mockUsers })
-      const table = useTable()
+    describe('body reactif', () => {
+        it('page computed est synchronise avec body', () => {
+            const table = defineDataTable<User>('bodyPage')
 
-      table.setSort('age', 'asc')
-      expect(table.sortedItems.value[0].age).toBe(22)
+            table.body.value.page = 3
 
-      table.setSort('age', 'desc')
-      expect(table.sortedItems.value[0].age).toBe(35)
+            expect(table.page.value).toBe(3)
+        })
+
+        it('sorts computed est synchronise avec body', () => {
+            const table = defineDataTable<User>('bodySorts')
+
+            table.body.value.sorts = [{ key: 'name', order: 'asc' }]
+
+            expect(table.sorts.value).toEqual([{ key: 'name', order: 'asc' }])
+        })
+
+        it('search computed est synchronise avec body', () => {
+            const table = defineDataTable<User>('bodySearch')
+
+            table.body.value.search = 'test'
+
+            expect(table.search.value).toBe('test')
+        })
+
+        it('filters computed est synchronise avec body', () => {
+            const table = defineDataTable<User>('bodyFilters')
+
+            table.body.value.filters = { status: 'active' }
+
+            expect(table.filters.value).toEqual({ status: 'active' })
+        })
     })
 
-    it('clearSort supprime le tri', () => {
-      const useTable = defineDataTable<User>('clearSortTest', { items: mockUsers })
-      const table = useTable()
+    describe('actions', () => {
+        it('setPage modifie la page', () => {
+            const table = defineDataTable<User>('setPage')
 
-      table.setSort('name', 'asc')
-      table.clearSort()
+            table.setPage(3)
 
-      expect(table.sort.value).toBeNull()
-    })
-  })
+            expect(table.body.value.page).toBe(3)
+        })
 
-  describe('pagination', () => {
-    it('paginatedItems retourne les items de la page courante', () => {
-      const useTable = defineDataTable<User>('paginationTest', {
-        items: mockUsers,
-        itemsPerPage: 2,
-      })
-      const table = useTable()
+        it('setPage limite la page au max', () => {
+            const table = defineDataTable<User>('setPageMax')
+            table.totalItems.value = 50
+            table.body.value.itemsPerPage = 10
 
-      expect(table.paginatedItems.value).toHaveLength(2)
-      expect(table.paginatedItems.value[0].id).toBe(1)
-    })
+            table.setPage(10)
 
-    it('setPage change la page', () => {
-      const useTable = defineDataTable<User>('setPageTest', {
-        items: mockUsers,
-        itemsPerPage: 2,
-      })
-      const table = useTable()
+            expect(table.body.value.page).toBe(5)
+        })
 
-      table.setPage(2)
-      expect(table.pagination.value.page).toBe(2)
-      expect(table.paginatedItems.value[0].id).toBe(3)
-    })
+        it('setSorts modifie les tris', () => {
+            const table = defineDataTable<User>('setSorts')
 
-    it('nextPage et previousPage naviguent', () => {
-      const useTable = defineDataTable<User>('navTest', {
-        items: mockUsers,
-        itemsPerPage: 2,
-      })
-      const table = useTable()
+            table.setSorts([{ key: 'name', order: 'desc' }])
 
-      table.nextPage()
-      expect(table.pagination.value.page).toBe(2)
+            expect(table.body.value.sorts).toEqual([{ key: 'name', order: 'desc' }])
+        })
 
-      table.previousPage()
-      expect(table.pagination.value.page).toBe(1)
-    })
+        it('clearSorts vide les tris', () => {
+            const table = defineDataTable<User>('clearSorts')
+            table.body.value.sorts = [{ key: 'name', order: 'asc' }]
 
-    it('goToFirstPage et goToLastPage', () => {
-      const useTable = defineDataTable<User>('firstLastTest', {
-        items: mockUsers,
-        itemsPerPage: 2,
-      })
-      const table = useTable()
+            table.clearSorts()
 
-      table.goToLastPage()
-      expect(table.pagination.value.page).toBe(3)
+            expect(table.body.value.sorts).toEqual([])
+        })
 
-      table.goToFirstPage()
-      expect(table.pagination.value.page).toBe(1)
-    })
+        it('setSearch modifie la recherche et reset la page', () => {
+            const table = defineDataTable<User>('setSearch')
+            table.body.value.page = 3
 
-    it('setItemsPerPage change le nombre par page', () => {
-      const useTable = defineDataTable<User>('itemsPerPageTest', {
-        items: mockUsers,
-        itemsPerPage: 2,
-      })
-      const table = useTable()
+            table.setSearch('test')
 
-      table.setItemsPerPage(5)
-      expect(table.pagination.value.itemsPerPage).toBe(5)
-      expect(table.paginatedItems.value).toHaveLength(5)
-    })
-  })
+            expect(table.body.value.search).toBe('test')
+            expect(table.body.value.page).toBe(1)
+        })
 
-  describe('selection', () => {
-    it('selectItem toggle la selection', () => {
-      const useTable = defineDataTable<User>('selectTest', { items: mockUsers })
-      const table = useTable()
+        it('clearSearch vide la recherche et reset la page', () => {
+            const table = defineDataTable<User>('clearSearch')
+            table.body.value.search = 'test'
+            table.body.value.page = 3
 
-      table.selectItem(mockUsers[0])
-      expect(table.selectedItems.value).toHaveLength(1)
+            table.clearSearch()
 
-      table.selectItem(mockUsers[0])
-      expect(table.selectedItems.value).toHaveLength(0)
+            expect(table.body.value.search).toBe('')
+            expect(table.body.value.page).toBe(1)
+        })
+
+        it('setFilters modifie les filtres et reset la page', () => {
+            const table = defineDataTable<User>('setFilters')
+            table.body.value.page = 3
+
+            table.setFilters({ status: 'active' })
+
+            expect(table.body.value.filters).toEqual({ status: 'active' })
+            expect(table.body.value.page).toBe(1)
+        })
+
+        it('clearFilters vide les filtres et reset la page', () => {
+            const table = defineDataTable<User>('clearFilters')
+            table.body.value.filters = { status: 'active' }
+            table.body.value.page = 3
+
+            table.clearFilters()
+
+            expect(table.body.value.filters).toEqual({})
+            expect(table.body.value.page).toBe(1)
+        })
     })
 
-    it('selectAll selectionne tous les items', () => {
-      const useTable = defineDataTable<User>('selectAllTest', { items: mockUsers })
-      const table = useTable()
+    describe('selection', () => {
+        it('selectItems ajoute des items', () => {
+            const table = defineDataTable<User>('selectItems')
+            table.items.value = mockUsers
 
-      table.selectAll()
-      expect(table.selectedItems.value).toHaveLength(5)
-      expect(table.isAllSelected.value).toBe(true)
+            table.selectItems([mockUsers[0]])
 
-      table.selectAll()
-      expect(table.selectedItems.value).toHaveLength(0)
+            expect(table.selectedItems.value).toHaveLength(1)
+            expect(table.selectedItems.value[0].id).toBe(1)
+        })
+
+        it('selectItems evite les doublons', () => {
+            const table = defineDataTable<User>('selectDuplicates')
+            table.items.value = mockUsers
+
+            table.selectItems([mockUsers[0]])
+            table.selectItems([mockUsers[0]])
+
+            expect(table.selectedItems.value).toHaveLength(1)
+        })
+
+        it('deselectItems retire des items', () => {
+            const table = defineDataTable<User>('deselectItems')
+            table.items.value = mockUsers
+            table.selectItems([mockUsers[0], mockUsers[1]])
+
+            table.deselectItems([mockUsers[0]])
+
+            expect(table.selectedItems.value).toHaveLength(1)
+            expect(table.selectedItems.value[0].id).toBe(2)
+        })
+
+        it('toggleSelectAll selectionne/deselectionne tout', () => {
+            const table = defineDataTable<User>('toggleAll')
+            table.items.value = mockUsers
+
+            table.toggleSelectAll()
+
+            expect(table.selectedItems.value).toHaveLength(3)
+            expect(table.isAllSelected.value).toBe(true)
+
+            table.toggleSelectAll()
+
+            expect(table.selectedItems.value).toHaveLength(0)
+            expect(table.isAllSelected.value).toBe(false)
+        })
+
+        it('toggleSelectPage selectionne/deselectionne la page', () => {
+            const table = defineDataTable<User>('togglePage')
+            table.items.value = mockUsers
+
+            table.toggleSelectPage()
+
+            expect(table.isPageSelected.value).toBe(true)
+
+            table.toggleSelectPage()
+
+            expect(table.isPageSelected.value).toBe(false)
+        })
+
+        it('clearSelection vide la selection', () => {
+            const table = defineDataTable<User>('clearSelection')
+            table.items.value = mockUsers
+            table.toggleSelectAll()
+
+            table.clearSelection()
+
+            expect(table.selectedItems.value).toHaveLength(0)
+        })
+
+        it('isSelected verifie si un item est selectionne', () => {
+            const table = defineDataTable<User>('isSelected')
+            table.items.value = mockUsers
+            table.selectItems([mockUsers[0]])
+
+            expect(table.isSelected(mockUsers[0])).toBe(true)
+            expect(table.isSelected(mockUsers[1])).toBe(false)
+        })
+
+        it('isIndeterminate est true si selection partielle', () => {
+            const table = defineDataTable<User>('isIndeterminate')
+            table.items.value = mockUsers
+            table.selectItems([mockUsers[0]])
+
+            expect(table.isIndeterminate.value).toBe(true)
+            expect(table.isAllSelected.value).toBe(false)
+        })
+
+        it('selectedCount retourne le nombre selectionne', () => {
+            const table = defineDataTable<User>('selectedCount')
+            table.items.value = mockUsers
+            table.selectItems([mockUsers[0], mockUsers[1]])
+
+            expect(table.selectedCount.value).toBe(2)
+        })
+
+        it('selectedIds retourne les ids selectionnes', () => {
+            const table = defineDataTable<User>('selectedIds')
+            table.items.value = mockUsers
+            table.selectItems([mockUsers[0], mockUsers[1]])
+
+            expect(table.selectedIds.value).toEqual([1, 2])
+        })
     })
 
-    it('clearSelection vide la selection', () => {
-      const useTable = defineDataTable<User>('clearSelectionTest', { items: mockUsers })
-      const table = useTable()
+    describe('useFetch', () => {
+        it('appelle fetchFn et met a jour items et total', async () => {
+            const table = defineDataTable<User>('fetchTest')
 
-      table.selectAll()
-      table.clearSelection()
+            const mockFetch = vi.fn(async () => ({
+                items: mockUsers,
+                total: 100,
+            }))
 
-      expect(table.selectedItems.value).toHaveLength(0)
+            const { refresh } = table.useFetch(mockFetch, { watch: false })
+
+            await refresh()
+
+            expect(mockFetch).toHaveBeenCalledWith(table.body.value)
+            expect(table.items.value).toEqual(mockUsers)
+            expect(table.totalItems.value).toBe(100)
+        })
+
+        it('passe isLoading a true pendant le fetch', async () => {
+            const table = defineDataTable<User>('loadingTest')
+
+            const mockFetch = vi.fn<[], Promise<{ items: User[]; total: number }>>(
+                () =>
+                    new Promise((resolve) =>
+                        setTimeout(() => resolve({ items: mockUsers, total: 3 }), 50)
+                    )
+            )
+
+            const { refresh } = table.useFetch(mockFetch, { watch: false })
+
+            const promise = refresh()
+            await nextTick()
+
+            expect(table.isLoading.value).toBe(true)
+
+            await promise
+
+            expect(table.isLoading.value).toBe(false)
+        })
+
+        it('retourne la meme instance si deja setup', () => {
+            const table = defineDataTable<User>('sameSetup')
+
+            const mockFetch1 = vi.fn(async () => ({ items: [], total: 0 }))
+            const mockFetch2 = vi.fn(async () => ({ items: [], total: 0 }))
+
+            const result1 = table.useFetch(mockFetch1, { watch: false })
+            const result2 = table.useFetch(mockFetch2, { watch: false })
+
+            expect(result1.refresh).toBe(result2.refresh)
+        })
+
+        it('ignore les erreurs AbortError', async () => {
+            const table = defineDataTable<User>('abortTest')
+
+            const mockFetch = vi.fn(async () => {
+                const error = new Error('Aborted')
+                error.name = 'AbortError'
+                throw error
+            })
+
+            const { refresh } = table.useFetch(mockFetch, { watch: false })
+
+            await expect(refresh()).resolves.toBeUndefined()
+        })
+
+        it('propage les autres erreurs', async () => {
+            const table = defineDataTable<User>('errorTest')
+
+            const mockFetch = vi.fn(async () => {
+                throw new Error('Network error')
+            })
+
+            const { refresh } = table.useFetch(mockFetch, { watch: false })
+
+            await expect(refresh()).rejects.toThrow('Network error')
+        })
     })
 
-    it('isSelected verifie si un item est selectionne', () => {
-      const useTable = defineDataTable<User>('isSelectedTest', { items: mockUsers })
-      const table = useTable()
+    describe('reset', () => {
+        it('reset reinitialise tout', () => {
+            const table = defineDataTable<User>('resetTest', {
+                itemsPerPage: 20,
+                initialBody: {
+                    search: 'initial',
+                },
+            })
 
-      table.selectItem(mockUsers[0])
+            table.items.value = mockUsers
+            table.totalItems.value = 100
+            table.body.value.page = 3
+            table.body.value.search = 'changed'
+            table.selectItems([mockUsers[0]])
 
-      expect(table.isSelected(mockUsers[0])).toBe(true)
-      expect(table.isSelected(mockUsers[1])).toBe(false)
+            table.reset()
+
+            expect(table.items.value).toEqual([])
+            expect(table.totalItems.value).toBe(0)
+            expect(table.body.value.page).toBe(1)
+            expect(table.body.value.itemsPerPage).toBe(20)
+            expect(table.body.value.search).toBe('initial')
+            expect(table.selectedItems.value).toEqual([])
+        })
     })
 
-    it('selectedCount retourne le nombre de selectionnes', () => {
-      const useTable = defineDataTable<User>('selectedCountTest', { items: mockUsers })
-      const table = useTable()
+    describe('pagination computed', () => {
+        it('totalPages calcule correctement le nombre de pages', () => {
+            const table = defineDataTable<User>('totalPages')
+            table.totalItems.value = 100
+            table.body.value.itemsPerPage = 10
 
-      table.selectItems([mockUsers[0], mockUsers[1]])
+            expect(table.totalPages.value).toBe(10)
 
-      expect(table.selectedCount.value).toBe(2)
+            table.body.value.itemsPerPage = 25
+
+            expect(table.totalPages.value).toBe(4)
+        })
+
+        it('pagination retourne un objet complet', () => {
+            const table = defineDataTable<User>('pagination')
+            table.totalItems.value = 50
+            table.body.value.page = 2
+            table.body.value.itemsPerPage = 10
+
+            expect(table.pagination.value).toEqual({
+                page: 2,
+                itemsPerPage: 10,
+                totalItems: 50,
+                totalPages: 5,
+            })
+        })
     })
-
-    it('isIndeterminate est true si selection partielle', () => {
-      const useTable = defineDataTable<User>('indeterminateTest', { items: mockUsers })
-      const table = useTable()
-
-      table.selectItem(mockUsers[0])
-
-      expect(table.isIndeterminate.value).toBe(true)
-      expect(table.isAllSelected.value).toBe(false)
-    })
-  })
-
-  describe('reset', () => {
-    it('reset reinitialise la table', () => {
-      const useTable = defineDataTable<User>('resetTest', { items: mockUsers })
-      const table = useTable()
-
-      table.setSort('name', 'asc')
-      table.setPage(2)
-      table.selectAll()
-      table.reset()
-
-      expect(table.items.value).toHaveLength(0)
-      expect(table.sort.value).toBeNull()
-      expect(table.pagination.value.page).toBe(1)
-      expect(table.selectedItems.value).toHaveLength(0)
-    })
-  })
 })

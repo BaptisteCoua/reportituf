@@ -1,27 +1,36 @@
 # DataTable Define Module
 
-Module avec l'API `defineDataTable` et `defineServerDataTable` pour créer des instances de tableaux réutilisables et enregistrées globalement.
+Module pour industrialiser la gestion des tableaux avec état partagé, réactivité et persistance.
 
 ## Installation
 
 ```bash
-pnpm add @reportit/datatable-define
+pnpm add @reportituf/datatable-define
 ```
 
 ## Fonctionnalités
 
-- `defineDataTable` : Crée un composable réutilisable pour tableaux côté client
-- `defineServerDataTable` : Crée un composable réutilisable pour tableaux côté serveur
-- Registry global pour partager les instances entre composants
-- Payload builders prêts à l'emploi (Lomkit, GraphQL, default)
+- **Store dynamique** : Chaque table crée automatiquement un store réactif partagé
+- **Body réactif** : Source de vérité unique pour page, sorts, search, filters
+- **Persistance** : Sauvegarde automatique dans sessionStorage ou localStorage
+- **Sélection** : Gestion complète de la sélection (items, page, all)
+- **Fetch flexible** : Connectez votre SDK, votre API ou vos données
+- **Watchers auto** : Refetch automatique quand le body change
+- **Production-ready** : AbortController, cleanup, debounce, race condition handling
 
-## Utilisation
+## Utilisation de base
 
-### defineDataTable (client-side)
+### Client-side (données statiques)
+
 ```typescript
-import { defineDataTable } from '@reportit/datatable-define'
+import { defineDataTable } from '@reportituf/datatable-define'
 
-// Définir le tableau une fois
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
 export const useUserTable = defineDataTable<User>('users', {
   headers: [
     { key: 'name', title: 'Nom', sortable: true },
@@ -30,87 +39,198 @@ export const useUserTable = defineDataTable<User>('users', {
   itemsPerPage: 10
 })
 
-// Utiliser dans n'importe quel composant
-const { items, setItems, toggleSort, pagination } = useUserTable()
+const table = useUserTable()
+table.items.value = myUsersArray
 ```
 
-### defineServerDataTable (server-side)
-```typescript
-import { defineServerDataTable, lomkitPayloadBuilder } from '@reportit/datatable-define'
+### Server-side (avec fetch)
 
-export const useAssetTable = defineServerDataTable<Asset>('assets', {
+```typescript
+import { defineDataTable } from '@reportituf/datatable-define'
+
+interface Asset {
+  id: number
+  name: string
+  type: string
+}
+
+export const useAssetTable = defineDataTable<Asset>('assets', {
   headers: [
     { key: 'name', title: 'Nom', sortable: true },
     { key: 'type', title: 'Type', sortable: true }
   ],
-  fetchFunction: async (payload) => {
-    const response = await Asset.search(payload)
-    return { items: response.data, total: response.meta.total }
-  },
-  payloadBuilder: lomkitPayloadBuilder,
-  debounceMs: 300
+  itemsPerPage: 20,
+  persist: 'session'
+})
+
+const table = useAssetTable()
+
+const { refresh } = table.useFetch(async (body) => {
+  const response = await Asset.search({
+    page: body.page,
+    limit: body.itemsPerPage,
+    sorts: body.sorts,
+    search: body.search,
+    filters: body.filters
+  })
+
+  return {
+    items: response.data,
+    total: response.meta.total
+  }
+})
+
+await refresh()
+```
+
+## Body réactif
+
+Le `body` est la source de vérité pour tous les paramètres du tableau :
+
+```typescript
+const table = useAssetTable()
+
+table.body.value.page = 2
+table.body.value.sorts = [{ key: 'name', order: 'asc' }]
+table.body.value.search = 'cisco'
+table.body.value.filters = { status: 'active', type: 'switch' }
+```
+
+Chaque modification du body déclenche automatiquement un refetch (si `useFetch` est configuré avec `watch: true`).
+
+## Actions
+
+### Pagination
+
+```typescript
+table.setPage(3)
+table.body.value.itemsPerPage = 50
+```
+
+### Tri
+
+```typescript
+table.setSorts([
+  { key: 'name', order: 'asc' },
+  { key: 'created_at', order: 'desc' }
+])
+
+table.clearSorts()
+```
+
+### Recherche
+
+```typescript
+table.setSearch('cisco')
+table.clearSearch()
+```
+
+### Filtres
+
+```typescript
+table.setFilters({ status: 'active', type: 'switch' })
+table.clearFilters()
+```
+
+### Sélection
+
+```typescript
+table.selectItems([item1, item2])
+table.deselectItems([item1])
+table.toggleSelectAll()
+table.toggleSelectPage()
+table.clearSelection()
+
+if (table.isSelected(item)) {
+  // ...
+}
+```
+
+## Store partagé
+
+Le même ID = le même store partagé entre composants :
+
+```typescript
+// Composant ListePage.vue
+const table = useAssetTable()
+table.body.value.filters = { status: 'active' }
+
+// Composant Sidebar.vue (même slug = même store)
+const table = useAssetTable()
+console.log(table.filters.value)
+```
+
+## Persistance
+
+```typescript
+defineDataTable('assets', {
+  persist: 'session'
+})
+
+defineDataTable('users', {
+  persist: 'local'
 })
 ```
 
-## Payload Builders
+Restaure automatiquement le body au retour sur la page.
 
-### lomkitPayloadBuilder
-```json
-{
-  "pagination": { "page": 1, "limit": 10 },
-  "sorts": [{ "field": "name", "direction": "asc" }],
-  "search": { "query": "cisco" },
-  "filters": [{ "field": "type", "operator": "=", "value": "switch" }]
-}
-```
+## useFetch avec watchers
 
-### graphqlPayloadBuilder
-```json
-{
-  "pagination": { "page": 1, "limit": 10 },
-  "sort": { "field": "name", "order": "ASC" },
-  "search": "cisco",
-  "filters": { "type": "switch" }
-}
-```
+### Mode auto (défaut)
 
-### defaultPayloadBuilder
-```json
-{
-  "page": 1,
-  "per_page": 10,
-  "sort_by": "name",
-  "sort_order": "asc",
-  "search": "cisco",
-  "filters": { "type": "switch" }
-}
-```
-
-### Créer un builder custom
 ```typescript
-import { createPayloadBuilder } from '@reportit/datatable-define'
+const { refresh } = table.useFetch(fetchFn)
 
-const myBuilder = createPayloadBuilder((params) => ({
-  pageNumber: params.page,
-  pageSize: params.itemsPerPage,
-  orderBy: params.sortBy,
-  searchQuery: params.search
-}))
+await refresh()
 ```
+
+Watchers actifs :
+- `page`, `sorts` → refetch immédiat
+- `search`, `filters` → refetch avec debounce 300ms
+
+### Mode manuel
+
+```typescript
+const { refresh } = table.useFetch(fetchFn, { watch: false })
+
+await refresh()
+
+watch(() => table.body.value.search, () => refresh())
+```
+
+## Éviter le double fetch
+
+```typescript
+const table = defineDataTable('assets', {
+  initialBody: {
+    filters: { status: 'active' },
+    search: 'cisco'
+  }
+})
+
+const { refresh } = table.useFetch(fetchFn)
+await refresh()
+```
+
+Le body est déjà complet au premier fetch, pas de refetch parasite.
+
+## Reset
+
+```typescript
+table.reset()
+```
+
+Remet à zéro items, selection, totalItems et restaure le body initial.
 
 ## Registry
 
-Le module maintient un registry global des instances :
-
 ```typescript
-import { hasDataTable, clearDataTableRegistry } from '@reportit/datatable-define'
+import { hasDataTable, clearDataTableRegistry } from '@reportituf/datatable-define'
 
-// Vérifier si un tableau existe
-if (hasDataTable('users')) {
+if (hasDataTable('assets')) {
   // ...
 }
 
-// Nettoyer le registry (utile pour les tests)
 clearDataTableRegistry()
 ```
 
@@ -118,8 +238,59 @@ clearDataTableRegistry()
 
 ```typescript
 export { defineDataTable } from './defineDataTable'
-export { defineServerDataTable } from './defineServerDataTable'
-export { defaultPayloadBuilder, lomkitPayloadBuilder, graphqlPayloadBuilder, createPayloadBuilder } from './payloadBuilders'
 export { clearDataTableRegistry, hasDataTable } from './store/registry'
-export type { DataTableSort, DataTablePagination, DataTableHeader, DataTableOptions, ... } from './types'
+
+export type {
+  DataTableSort,
+  DataTablePagination,
+  DataTableHeader,
+  DataTableBody,
+  DataTableOptions,
+  DataTableReturn,
+  FetchResponse,
+  FetchFunction,
+  UseFetchOptions
+}
+```
+
+## Types
+
+```typescript
+interface DataTableBody {
+  page: number
+  itemsPerPage: number
+  sorts: DataTableSort[]
+  search: string
+  filters: Record<string, unknown>
+}
+
+interface DataTableOptions<T> {
+  headers?: DataTableHeader[]
+  itemsPerPage?: number
+  itemKey?: string | ((item: T) => string | number)
+  initialBody?: Partial<DataTableBody>
+  persist?: boolean | 'session' | 'local'
+}
+
+type FetchFunction<T> = (body: DataTableBody) => Promise<FetchResponse<T>>
+
+interface FetchResponse<T> {
+  items: T[]
+  total: number
+}
+```
+
+## Intégration avec autres modules
+
+Ce module s'intègre avec :
+- **SDK** : Connectez votre fetchFn avec le SDK
+- **Forms/Filters** : Bindez vos filtres avec `table.body.value.filters`
+- **Query builders** : Transformez le body dans votre fetchFn selon votre format API
+
+```typescript
+const filtersStore = useAssetFilters()
+
+watch(filtersStore, (newFilters) => {
+  table.body.value.filters = newFilters
+}, { deep: true })
 ```
