@@ -1,6 +1,6 @@
 # DateTime Define Module
 
-Module avec l'API `defineDate`, `defineDatetime` et `defineDateRange` pour créer des instances de sélecteurs de dates réutilisables et enregistrées globalement.
+Module avec l'API `defineDateTime` pour créer des instances de sélecteurs de dates réutilisables et enregistrées globalement.
 
 ## Installation
 
@@ -10,20 +10,22 @@ pnpm add @reportit/datetime-define
 
 ## Fonctionnalités
 
-- `defineDate` : Crée un composable réutilisable pour sélection de date
-- `defineDatetime` : Crée un composable pour date + heure
-- `defineDateRange` : Crée un composable pour plage de dates
+- `defineDateTime` : Crée un composable réutilisable avec mode configurable ('date' | 'datetime' | 'range')
 - Registry global pour partager les instances entre composants
 - Utilitaires de formatage et validation inclus
+- Gestion automatique des timezones et locales
+- Validation et correction automatique des dates
 
 ## Utilisation
 
-### defineDate
+### Mode Date
+
 ```typescript
-import { defineDate } from '@reportit/datetime-define'
+import { defineDateTime } from '@reportit/datetime-define'
 
 // Définir le picker une fois
-export const useBirthDatePicker = defineDate('birthdate', {
+export const useBirthDatePicker = defineDateTime('birthdate', {
+  mode: 'date',
   format: 'dd/MM/yyyy',
   maxDate: new Date(),
   autoCorrect: true
@@ -33,34 +35,140 @@ export const useBirthDatePicker = defineDate('birthdate', {
 const { selectedDate, setDate, formattedValue, isValid } = useBirthDatePicker()
 ```
 
-### defineDatetime
-```typescript
-import { defineDatetime } from '@reportit/datetime-define'
+### Mode Datetime
 
-export const useAppointmentPicker = defineDatetime('appointment', {
+```typescript
+import { defineDateTime } from '@reportit/datetime-define'
+
+export const useAppointmentPicker = defineDateTime('appointment', {
+  mode: 'datetime',
   format: 'dd/MM/yyyy HH:mm',
   minDate: new Date(),
   timezone: 'Europe/Paris'
 })
 
-const { selectedDate, selectedTime, setDate, setTime, isoValue } = useAppointmentPicker()
+const {
+  selectedDate,
+  selectedTime,
+  combinedDateTime,
+  setDate,
+  setTime,
+  setDateTime,
+  isoValue
+} = useAppointmentPicker()
 ```
 
-### defineDateRange
-```typescript
-import { defineDateRange } from '@reportit/datetime-define'
+### Mode Range
 
-export const useReportPeriod = defineDateRange('report-period', {
+```typescript
+import { defineDateTime } from '@reportit/datetime-define'
+
+export const useReportPeriod = defineDateTime('report-period', {
+  mode: 'range',
   format: 'dd/MM/yyyy',
   defaultToNow: false
 })
 
-const { dateRange, setDateRange, isValid } = useReportPeriod()
+const {
+  startDate,
+  endDate,
+  dateRange,
+  setStartDate,
+  setEndDate,
+  setDateRange,
+  isValid
+} = useReportPeriod()
 
-setDateRange({
-  start: new Date('2024-01-01'),
-  end: new Date('2024-12-31')
-})
+setDateRange(new Date('2024-01-01'), new Date('2024-12-31'))
+```
+
+## Options
+
+```typescript
+interface DateTimeOptions {
+  mode: 'date' | 'datetime' | 'range'
+  initialDate?: Date | null
+  initialTime?: string | null
+  initialRange?: DateRange
+  minDate?: Date
+  maxDate?: Date
+  timezone?: string
+  locale?: Locale
+  format?: string
+  autoCorrect?: boolean
+  defaultToNow?: boolean
+}
+```
+
+## API de retour
+
+### Mode 'date'
+
+```typescript
+{
+  selectedDate: ComputedRef<Date | null>
+  formattedValue: ComputedRef<string | null>
+  isoValue: ComputedRef<string | null>
+  error: ComputedRef<DateTimeError | null>
+  isValid: ComputedRef<boolean>
+  minDate: ComputedRef<Date | null>
+  maxDate: ComputedRef<Date | null>
+  format: ComputedRef<string>
+  timezone: ComputedRef<string>
+  mode: ComputedRef<DateTimeMode>
+  setDate: (date: Date | string | null) => void
+  setMinDate: (date: Date | null) => void
+  setMaxDate: (date: Date | null) => void
+  setTimezone: (timezone: string) => void
+  setLocale: (locale: Locale) => void
+  setFormat: (format: string) => void
+  toUTC: () => Date | null
+  toLocal: () => Date | null
+  validate: () => boolean
+  reset: () => void
+  clear: () => void
+}
+```
+
+### Mode 'datetime'
+
+Retourne tous les champs du mode 'date' plus :
+
+```typescript
+{
+  selectedTime: ComputedRef<string | null>
+  combinedDateTime: ComputedRef<Date | null>
+  setTime: (time: string | null) => void
+  setDateTime: (date: Date | string | null, time: string | null) => void
+}
+```
+
+### Mode 'range'
+
+```typescript
+{
+  startDate: ComputedRef<Date | null>
+  endDate: ComputedRef<Date | null>
+  dateRange: ComputedRef<DateRange>
+  formattedValue: ComputedRef<FormattedRange | null>
+  isoValue: ComputedRef<ISORange | null>
+  error: ComputedRef<DateTimeError | null>
+  isValid: ComputedRef<boolean>
+  minDate: ComputedRef<Date | null>
+  maxDate: ComputedRef<Date | null>
+  format: ComputedRef<string>
+  mode: ComputedRef<DateTimeMode>
+  setStartDate: (date: Date | string | null) => void
+  setEndDate: (date: Date | string | null) => void
+  setDateRange: (start: Date | string | null, end: Date | string | null) => void
+  setMinDate: (date: Date | null) => void
+  setMaxDate: (date: Date | null) => void
+  setLocale: (locale: Locale) => void
+  setFormat: (format: string) => void
+  validate: () => boolean
+  reset: () => void
+  clear: () => void
+}
 ```
 
 ## Utilitaires de formatage
@@ -87,6 +195,9 @@ const iso = toISO(new Date()) // "2024-12-23T00:00:00.000Z"
 
 // Combiner date et heure
 const datetime = combineDateTime(date, '14:30')
+
+// Extraire l'heure d'une date
+const time = extractTime(new Date()) // "14:30"
 ```
 
 ## Utilitaires de validation
@@ -108,6 +219,11 @@ if (isValidDate(date)) {
 
 // Vérifier si dans une plage
 if (isDateInRange(date, minDate, maxDate)) {
+  // ...
+}
+
+// Valider un range
+if (isRangeValid(startDate, endDate)) {
   // ...
 }
 
@@ -134,12 +250,26 @@ clearDateTimeRegistry()
 ```typescript
 export type {
   DateRange,
-  DatePickerMode,
+  FormattedRange,
+  ISORange,
   DateTimeMode,
   DateTimeError,
-  BaseDateOptions,
-  DateOptions,
-  DatetimeOptions,
-  DateRangeOptions
-} from './types'
+  DateTimeOptions
+} from '@reportit/datetime-define'
+```
+
+## Migration depuis l'ancienne API
+
+Si vous utilisiez les anciennes fonctions `defineDate`, `defineDatetime` ou `defineDateRange`, la migration est simple :
+
+```typescript
+// Ancien
+defineDate('birthdate', { ... })
+defineDatetime('appointment', { ... })
+defineDateRange('report', { ... })
+
+// Nouveau
+defineDateTime('birthdate', { mode: 'date', ... })
+defineDateTime('appointment', { mode: 'datetime', ... })
+defineDateTime('report', { mode: 'range', ... })
 ```

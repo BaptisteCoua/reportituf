@@ -1,38 +1,37 @@
 import type { Locale } from 'date-fns'
 
 export interface DateRange {
-  start: Date | null
-  end: Date | null
+    start: Date | null
+    end: Date | null
 }
 
-export type DatePickerMode = 'single' | 'range'
+export interface FormattedRange {
+    start: string | null
+    end: string | null
+}
 
-export type DateTimeMode = 'date' | 'datetime' | 'time'
+export interface ISORange {
+    start: string | null
+    end: string | null
+}
+
+export type DateTimeMode = 'date' | 'datetime' | 'range'
 
 export interface DateTimeError {
-  type: 'min' | 'max' | 'range' | 'invalid'
-  message: string
+    type: 'min' | 'max' | 'range' | 'invalid'
+    message: string
 }
 
-export interface BaseDateOptions {
-  minDate?: Date
-  maxDate?: Date
-  timezone?: string
-  locale?: Locale
-  format?: string
-  autoCorrect?: boolean
-  defaultToNow?: boolean
-}
-
-export interface DateOptions extends BaseDateOptions {
-  initialDate?: Date | null
-}
-
-export interface DatetimeOptions extends BaseDateOptions {
-  initialDate?: Date | null
-  initialTime?: string | null
-}
-
-export interface DateRangeOptions extends BaseDateOptions {
-  initialRange?: DateRange
+export interface DateTimeOptions {
+    mode: DateTimeMode
+    initialDate?: Date | null
+    initialTime?: string | null
+    initialRange?: DateRange
+    minDate?: Date
+    maxDate?: Date
+    timezone?: string
+    locale?: Locale
+    format?: string
+    autoCorrect?: boolean
+    defaultToNow?: boolean
 }
