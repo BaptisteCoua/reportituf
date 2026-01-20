@@ -7,16 +7,14 @@ export default defineNuxtConfig({
     "./layers/users",
     "./layers/products",
     "./layers/user-poo",
-    "./layers/user-define"
+    "./layers/user-define",
+    "./layers/events"
   ],
   css: ["~/assets/css/global.css"],
   build: {
     transpile: ["vuetify"],
   },
   modules: [
-    "form-xefi",
-    "~/modules/dateTimePicker/module.ts",
-    "~/modules/datatable/module.ts"
   ],
   vite: {
     plugins: [
