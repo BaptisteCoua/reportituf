@@ -1,4 +1,4 @@
-import { computed, watch, onScopeDispose } from 'vue'
+import { computed, watch, onScopeDispose, getCurrentScope } from 'vue'
 import { registerDataTable } from './store/registry'
 import type {
     DataTableOptions,
@@ -226,7 +226,9 @@ export function defineDataTable<T = unknown>(
             }
         }
 
-        onScopeDispose(cleanup)
+        if (getCurrentScope()) {
+            onScopeDispose(cleanup)
+        }
 
         store._fetchSetup = { doFetch, cleanup }
 

@@ -102,6 +102,7 @@ describe('defineDataTable', () => {
     describe('actions', () => {
         it('setPage modifie la page', () => {
             const table = defineDataTable<User>('setPage')
+            table.totalItems.value = 50
 
             table.setPage(3)
 
