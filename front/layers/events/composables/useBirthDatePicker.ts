@@ -1,8 +1,6 @@
 import { defineDateTime } from '~/modules/datetime-define/src'
 
-export const useBirthDatePicker = defineDateTime('birth-date', {
+export const useBirthDatePicker = defineDateTime<[]>(() => ({
     mode: 'date',
-    format: 'dd/MM/yyyy',
     maxDate: new Date(),
-    autoCorrect: true,
-})
+}))

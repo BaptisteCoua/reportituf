@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useBirthDatePicker } from '../../composables/useBirthDatePicker'
 
-const birthDate = useBirthDatePicker()
+const { date, setDate, isValid, reset } = useBirthDatePicker()
 
 const demoDate = new Date('1990-05-15')
 
 const setDemoDate = () => {
-    birthDate.setDate(demoDate)
+    setDate(demoDate)
 }
 
 const clearDate = () => {
-    birthDate.setDate(null)
+    reset()
 }
 </script>
 
@@ -25,12 +25,8 @@ const clearDate = () => {
             <v-row>
                 <v-col cols="12">
                     <div class="text-subtitle-2 mb-2">Valeurs actuelles:</div>
-                    <v-chip
-                        v-if="birthDate.selectedDate?.value"
-                        color="primary"
-                        class="mr-2"
-                    >
-                        Date: {{ birthDate.formattedValue.value }}
+                    <v-chip v-if="date" color="primary" class="mr-2">
+                        Date: {{ date.toLocaleDateString('fr-FR') }}
                     </v-chip>
                     <v-chip v-else color="grey">Aucune date</v-chip>
                 </v-col>
@@ -41,39 +37,31 @@ const clearDate = () => {
                         <v-list-item>
                             <template #prepend>
                                 <v-icon
-                                    :icon="birthDate.isValid.value ? 'mdi-check-circle' : 'mdi-alert-circle'"
-                                    :color="birthDate.isValid.value ? 'success' : 'error'"
+                                    :icon="isValid ? 'mdi-check-circle' : 'mdi-alert-circle'"
+                                    :color="isValid ? 'success' : 'error'"
                                 ></v-icon>
                             </template>
                             <v-list-item-title>
-                                Valide: {{ birthDate.isValid.value ? 'Oui' : 'Non' }}
+                                Valide: {{ isValid ? 'Oui' : 'Non' }}
                             </v-list-item-title>
                         </v-list-item>
-                        <v-list-item v-if="birthDate.error.value">
-                            <template #prepend>
-                                <v-icon icon="mdi-alert" color="error"></v-icon>
-                            </template>
-                            <v-list-item-title>
-                                Erreur: {{ birthDate.error.value.message }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item v-if="birthDate.isoValue.value">
+                        <v-list-item v-if="date">
                             <template #prepend>
                                 <v-icon icon="mdi-code-json"></v-icon>
                             </template>
                             <v-list-item-title>
-                                ISO: {{ birthDate.isoValue.value }}
+                                ISO: {{ date.toISOString() }}
                             </v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-col>
 
                 <v-col cols="12">
-                    <v-btn color="primary" @click="setDemoDate" class="mr-2">
-                        Définir 15/05/1990
+                    <v-btn color="primary" class="mr-2" @click="setDemoDate">
+                        Definir 15/05/1990
                     </v-btn>
                     <v-btn color="error" @click="clearDate">
-                        Réinitialiser
+                        Reinitialiser
                     </v-btn>
                 </v-col>
             </v-row>

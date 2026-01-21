@@ -1,296 +1,148 @@
-# DataTable Define Module
+# Table Define Module
 
-Module pour industrialiser la gestion des tableaux avec état partagé, réactivité et persistance.
+Module pour industrialiser la gestion des tableaux Vuetify avec refs reactives et watch automatique.
 
 ## Installation
 
 ```bash
-pnpm add @reportituf/datatable-define
+pnpm add @reportituf/table-define
 ```
 
-## Fonctionnalités
+## Utilisation
 
-- **Store dynamique** : Chaque table crée automatiquement un store réactif partagé
-- **Body réactif** : Source de vérité unique pour page, sorts, search, filters
-- **Persistance** : Sauvegarde automatique dans sessionStorage ou localStorage
-- **Sélection** : Gestion complète de la sélection (items, page, all)
-- **Fetch flexible** : Connectez votre SDK, votre API ou vos données
-- **Watchers auto** : Refetch automatique quand le body change
-- **Production-ready** : AbortController, cleanup, debounce, race condition handling
-
-## Utilisation de base
-
-### Client-side (données statiques)
+### Definir un composable
 
 ```typescript
-import { defineDataTable } from '@reportituf/datatable-define'
+// composables/useUserTable.ts
+import { defineTable } from '@reportituf/table-define'
 
 interface User {
-  id: number
-  name: string
-  email: string
+    id: number
+    name: string
+    email: string
 }
 
-export const useUserTable = defineDataTable<User>('users', {
-  headers: [
-    { key: 'name', title: 'Nom', sortable: true },
-    { key: 'email', title: 'Email', sortable: true }
-  ],
-  itemsPerPage: 10
-})
-
-const table = useUserTable()
-table.items.value = myUsersArray
+export const useUserTable = defineTable<[string], User>(status => ({
+    load: async ({ page, itemsPerPage, search, sorts, filters }) => {
+        const res = await api.get('/users', {
+            params: { page, limit: itemsPerPage, search, status, ...filters }
+        })
+        return { items: res.data.users, total: res.data.total }
+    },
+    itemsPerPage: 25,
+}))
 ```
 
-### Server-side (avec fetch)
+### Utiliser dans un composant
+
+```vue
+<script setup lang="ts">
+const { items, page, itemsPerPage, sorts, search, total, isLoading, refresh } = useUserTable('active')
+
+const headers = [
+    { title: 'Nom', key: 'name', sortable: true },
+    { title: 'Email', key: 'email' },
+]
+</script>
+
+<template>
+    <v-text-field v-model="search" label="Rechercher" />
+
+    <v-data-table-server
+        :items="items"
+        :headers="headers"
+        :items-length="total"
+        :loading="isLoading"
+        v-model:page="page"
+        v-model:items-per-page="itemsPerPage"
+        v-model:sort-by="sorts"
+    />
+</template>
+```
+
+## API
+
+### Config
 
 ```typescript
-import { defineDataTable } from '@reportituf/datatable-define'
-
-interface Asset {
-  id: number
-  name: string
-  type: string
+interface TableConfig<T> {
+    load: (body: TableBody) => Promise<{ items: T[]; total: number }>
+    itemsPerPage?: number  // default: 10
+    watch?: boolean        // default: true
 }
 
-export const useAssetTable = defineDataTable<Asset>('assets', {
-  headers: [
-    { key: 'name', title: 'Nom', sortable: true },
-    { key: 'type', title: 'Type', sortable: true }
-  ],
-  itemsPerPage: 20,
-  persist: 'session'
-})
-
-const table = useAssetTable()
-
-const { refresh } = table.useFetch(async (body) => {
-  const response = await Asset.search({
-    page: body.page,
-    limit: body.itemsPerPage,
-    sorts: body.sorts,
-    search: body.search,
-    filters: body.filters
-  })
-
-  return {
-    items: response.data,
-    total: response.meta.total
-  }
-})
-
-await refresh()
-```
-
-## Body réactif
-
-Le `body` est la source de vérité pour tous les paramètres du tableau :
-
-```typescript
-const table = useAssetTable()
-
-table.body.value.page = 2
-table.body.value.sorts = [{ key: 'name', order: 'asc' }]
-table.body.value.search = 'cisco'
-table.body.value.filters = { status: 'active', type: 'switch' }
-```
-
-Chaque modification du body déclenche automatiquement un refetch (si `useFetch` est configuré avec `watch: true`).
-
-## Actions
-
-### Pagination
-
-```typescript
-table.setPage(3)
-table.body.value.itemsPerPage = 50
-```
-
-### Tri
-
-```typescript
-table.setSorts([
-  { key: 'name', order: 'asc' },
-  { key: 'created_at', order: 'desc' }
-])
-
-table.clearSorts()
-```
-
-### Recherche
-
-```typescript
-table.setSearch('cisco')
-table.clearSearch()
-```
-
-### Filtres
-
-```typescript
-table.setFilters({ status: 'active', type: 'switch' })
-table.clearFilters()
-```
-
-### Sélection
-
-```typescript
-table.selectItems([item1, item2])
-table.deselectItems([item1])
-table.toggleSelectAll()
-table.toggleSelectPage()
-table.clearSelection()
-
-if (table.isSelected(item)) {
-  // ...
+interface TableBody {
+    page: number
+    itemsPerPage: number
+    sorts: TableSort[]
+    search: string
+    filters: Record<string, unknown>
 }
 ```
 
-## Store partagé
-
-Le même ID = le même store partagé entre composants :
+### Retour
 
 ```typescript
-// Composant ListePage.vue
-const table = useAssetTable()
-table.body.value.filters = { status: 'active' }
+interface TableReturn<T> {
+    // Donnees
+    items: Ref<T[]>
+    total: Ref<number>
+    isLoading: Ref<boolean>
 
-// Composant Sidebar.vue (même slug = même store)
-const table = useAssetTable()
-console.log(table.filters.value)
-```
+    // Refs reactives (bindables sur v-data-table-server)
+    page: Ref<number>
+    itemsPerPage: Ref<number>
+    sorts: Ref<TableSort[]>
+    search: Ref<string>
+    filters: Ref<Record<string, unknown>>
 
-## Persistance
-
-```typescript
-defineDataTable('assets', {
-  persist: 'session'
-})
-
-defineDataTable('users', {
-  persist: 'local'
-})
-```
-
-Restaure automatiquement le body au retour sur la page.
-
-## useFetch avec watchers
-
-### Mode auto (défaut)
-
-```typescript
-const { refresh } = table.useFetch(fetchFn)
-
-await refresh()
-```
-
-Watchers actifs :
-- `page`, `sorts` → refetch immédiat
-- `search`, `filters` → refetch avec debounce 300ms
-
-### Mode manuel
-
-```typescript
-const { refresh } = table.useFetch(fetchFn, { watch: false })
-
-await refresh()
-
-watch(() => table.body.value.search, () => refresh())
-```
-
-## Éviter le double fetch
-
-```typescript
-const table = defineDataTable('assets', {
-  initialBody: {
-    filters: { status: 'active' },
-    search: 'cisco'
-  }
-})
-
-const { refresh } = table.useFetch(fetchFn)
-await refresh()
-```
-
-Le body est déjà complet au premier fetch, pas de refetch parasite.
-
-## Reset
-
-```typescript
-table.reset()
-```
-
-Remet à zéro items, selection, totalItems et restaure le body initial.
-
-## Registry
-
-```typescript
-import { hasDataTable, clearDataTableRegistry } from '@reportituf/datatable-define'
-
-if (hasDataTable('assets')) {
-  // ...
-}
-
-clearDataTableRegistry()
-```
-
-## Exports
-
-```typescript
-export { defineDataTable } from './defineDataTable'
-export { clearDataTableRegistry, hasDataTable } from './store/registry'
-
-export type {
-  DataTableSort,
-  DataTablePagination,
-  DataTableHeader,
-  DataTableBody,
-  DataTableOptions,
-  DataTableReturn,
-  FetchResponse,
-  FetchFunction,
-  UseFetchOptions
+    // Actions
+    refresh: () => Promise<void>
+    reset: () => void
 }
 ```
 
-## Types
+## Watch automatique
+
+Par defaut, le watch est actif :
+- `page`, `itemsPerPage`, `sorts` : refresh immediat
+- `search`, `filters` : refresh avec debounce 300ms + reset page a 1
+
+Pour desactiver :
 
 ```typescript
-interface DataTableBody {
-  page: number
-  itemsPerPage: number
-  sorts: DataTableSort[]
-  search: string
-  filters: Record<string, unknown>
-}
-
-interface DataTableOptions<T> {
-  headers?: DataTableHeader[]
-  itemsPerPage?: number
-  itemKey?: string | ((item: T) => string | number)
-  initialBody?: Partial<DataTableBody>
-  persist?: boolean | 'session' | 'local'
-}
-
-type FetchFunction<T> = (body: DataTableBody) => Promise<FetchResponse<T>>
-
-interface FetchResponse<T> {
-  items: T[]
-  total: number
-}
+const useUserTable = defineTable<[], User>(() => ({
+    load: fetchUsers,
+    watch: false,
+}))
 ```
 
-## Intégration avec autres modules
-
-Ce module s'intègre avec :
-- **SDK** : Connectez votre fetchFn avec le SDK
-- **Forms/Filters** : Bindez vos filtres avec `table.body.value.filters`
-- **Query builders** : Transformez le body dans votre fetchFn selon votre format API
+## Arguments dynamiques
 
 ```typescript
-const filtersStore = useAssetFilters()
+// Avec arguments
+const useUserTable = defineTable<[string, number], User>((status, companyId) => ({
+    load: async body => fetchUsers(body, status, companyId),
+}))
 
-watch(filtersStore, (newFilters) => {
-  table.body.value.filters = newFilters
-}, { deep: true })
+// Utilisation
+const table = useUserTable('active', 123)
+```
+
+## Refresh depuis ailleurs
+
+```typescript
+// Dans le composant principal
+const { refresh } = useUserTable('active')
+
+// Apres creation dans une modale
+await createUser(data)
+refresh()
+```
+
+## Types exportes
+
+```typescript
+export { defineTable } from './defineTable'
+export type { TableSort, TableBody, TableConfig, TableReturn } from './types'
 ```

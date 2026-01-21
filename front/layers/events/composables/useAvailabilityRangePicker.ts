@@ -1,7 +1,6 @@
 import { defineDateTime } from '~/modules/datetime-define/src'
 
-export const useAvailabilityRangePicker = defineDateTime('availability-range', {
+export const useAvailabilityRangePicker = defineDateTime<[]>(() => ({
     mode: 'range',
-    format: 'dd/MM/yyyy',
     minDate: new Date(),
-})
+}))
