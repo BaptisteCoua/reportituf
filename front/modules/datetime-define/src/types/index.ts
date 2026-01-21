@@ -1,37 +1,59 @@
-import type { Locale } from 'date-fns'
+import type { Ref, ComputedRef } from 'vue'
 
-export interface DateRange {
-    start: Date | null
-    end: Date | null
+export interface DateConfig {
+    mode: 'date'
+    minDate?: Date | null
+    maxDate?: Date | null
 }
 
-export interface FormattedRange {
-    start: string | null
-    end: string | null
+export interface DateTimeConfig {
+    mode: 'datetime'
+    minDate?: Date | null
+    maxDate?: Date | null
 }
 
-export interface ISORange {
-    start: string | null
-    end: string | null
+export interface RangeConfig {
+    mode: 'range'
+    minDate?: Date | null
+    maxDate?: Date | null
 }
 
-export type DateTimeMode = 'date' | 'datetime' | 'range'
-
-export interface DateTimeError {
-    type: 'min' | 'max' | 'range' | 'invalid'
-    message: string
+export interface DateReturn {
+    date: Ref<Date | null>
+    minDate: Ref<Date | null>
+    maxDate: Ref<Date | null>
+    isValid: ComputedRef<boolean>
+    setDate: (value: Date | null) => void
+    setMinDate: (value: Date | null) => void
+    setMaxDate: (value: Date | null) => void
+    reset: () => void
 }
 
-export interface DateTimeOptions {
-    mode: DateTimeMode
-    initialDate?: Date | null
-    initialTime?: string | null
-    initialRange?: DateRange
-    minDate?: Date
-    maxDate?: Date
-    timezone?: string
-    locale?: Locale
-    format?: string
-    autoCorrect?: boolean
-    defaultToNow?: boolean
+export interface DateTimeReturn {
+    date: Ref<Date | null>
+    time: Ref<string | null>
+    combined: ComputedRef<Date | null>
+    minDate: Ref<Date | null>
+    maxDate: Ref<Date | null>
+    isValid: ComputedRef<boolean>
+    setDate: (value: Date | null) => void
+    setTime: (value: string | null) => void
+    setDateTime: (date: Date | null, time: string | null) => void
+    setMinDate: (value: Date | null) => void
+    setMaxDate: (value: Date | null) => void
+    reset: () => void
+}
+
+export interface RangeReturn {
+    start: Ref<Date | null>
+    end: Ref<Date | null>
+    minDate: Ref<Date | null>
+    maxDate: Ref<Date | null>
+    isValid: ComputedRef<boolean>
+    setStart: (value: Date | null) => void
+    setEnd: (value: Date | null) => void
+    setRange: (start: Date | null, end: Date | null) => void
+    setMinDate: (value: Date | null) => void
+    setMaxDate: (value: Date | null) => void
+    reset: () => void
 }
